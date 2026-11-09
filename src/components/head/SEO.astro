@@ -1,0 +1,72 @@
+---
+import { site } from "../../site.config";
+
+export interface Props {
+  // Page name, e.g. "About". Leave empty on the homepage.
+  title?: string;
+  // Unique per page, 140-160 chars, written for humans (it's the Google snippet).
+  description?: string;
+  // Social share image for this page. A path in /public or an imported image's .src.
+  image?: string;
+  imageAlt?: string;
+  // true = keep this page out of Google (drafts, legal pages, etc.).
+  noindex?: boolean;
+  type?: "website" | "article";
+}
+
+const {
+  title,
+  description: pageDescription,
+  image = site.ogImage,
+  imageAlt = site.ogImageAlt,
+  noindex = false,
+  type = "website",
+} = Astro.props;
+
+
+const description = pageDescription || site.description;
+// "Page | Name" on inner pages, "Name | Tagline" on the homepage.
+const fullTitle = (title ? [title, site.name] : [site.name, site.tagline]).filter(Boolean).join(" | ");
+
+// One canonical URL per page: no trailing slash, no .html, no query string.
+const base = Astro.site ?? Astro.url;
+const path = Astro.url.pathname.replace(/\.html$/, "").replace(/\/index$/, "").replace(/(.)\/$/, "$1");
+const canonicalURL = new URL(path || "/", base).href;
+const imageURL = image ? new URL(image, base).href : "";
+---
+
+{/* Primary */}
+<title>{fullTitle}</title>
+{description && <meta name="description" content={description} />}
+{!noindex && <link rel="canonical" href={canonicalURL} />}
+<meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1"} />
+{site.themeColor && <meta name="theme-color" content={site.themeColor} />}
+
+{/* Open Graph (Facebook, LinkedIn, iMessage, Slack, etc.) */}
+<meta property="og:type" content={type} />
+{site.name && <meta property="og:site_name" content={site.name} />}
+<meta property="og:locale" content={site.locale} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={fullTitle} />
+{description && <meta property="og:description" content={description} />}
+{
+  imageURL && (
+    <>
+      <meta property="og:image" content={imageURL} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      {imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+    </>
+  )
+}
+
+{/* Twitter / X */}
+<meta name="twitter:card" content={imageURL ? "summary_large_image" : "summary"} />
+<meta name="twitter:title" content={fullTitle} />
+{description && <meta name="twitter:description" content={description} />}
+{imageURL && <meta name="twitter:image" content={imageURL} />}
+{imageURL && imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
+
+{/* Search console verification */}
+{site.verification.google && <meta name="google-site-verification" content={site.verification.google} />}
+{site.verification.bing && <meta name="msvalidate.01" content={site.verification.bing} />}

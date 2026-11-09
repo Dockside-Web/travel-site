@@ -1,0 +1,91 @@
+---
+import { site } from "../site.config";
+import { demoUrl, loginUrl, signupUrl } from "../lib/links";
+import Logo from "./Logo.astro";
+import Button from "./Button.astro";
+
+interface Props {
+  // Sits over the page's photo hero, in white.
+  overlay?: boolean;
+}
+const { overlay = false } = Astro.props;
+
+// In the same order as the home page. "Try the demo" signs the visitor in to
+// the demo, so search engines are asked not to follow it.
+const links: { href: string; label: string; rel?: string }[] = [
+  { href: "/#trips", label: "Trips" },
+  { href: "/#sharing", label: "Sharing" },
+  { href: "/#costs", label: "Costs" },
+  { href: demoUrl, label: "Try the demo", rel: "nofollow" },
+];
+---
+
+<header class:list={["z-30 w-full text-white", overlay ? "absolute inset-x-0 top-0" : "bg-ink"]}>
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-8 md:py-6">
+    <a href="/" class="flex items-center gap-2.5 text-[1.35rem] font-medium whitespace-nowrap text-white no-underline sm:text-2xl md:text-[1.65rem]">
+      <Logo class="h-9 w-auto md:h-10" />
+      {site.name}
+    </a>
+
+    <!-- Wide screens: the links in a row -->
+    <nav aria-label="Main" class="hidden items-center gap-7 font-ui text-base whitespace-nowrap xl:flex">
+      {links.map((l) => <a href={l.href} rel={l.rel} class="text-white no-underline hover:text-sand">{l.label}</a>)}
+      <a href={loginUrl} class="text-white no-underline hover:text-sand">Log in</a>
+      <Button href={signupUrl} size="sm">Get Started</Button>
+    </nav>
+
+    <!-- Phones: a menu button -->
+    <button
+      type="button"
+      class="-mr-2 flex size-11 items-center justify-center rounded-full text-white hover:bg-white/10 xl:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-menu-button
+    >
+      <span class="sr-only">Menu</span>
+      <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path data-menu-open d="M4 7h16M4 12h16M4 17h16"></path>
+        <path data-menu-close class="hidden" d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav id="mobile-menu" aria-label="Main" class="mx-4 mb-4 hidden rounded-2xl bg-ink/95 p-3 font-ui shadow-2xl backdrop-blur xl:hidden" data-menu>
+    <ul class="grid">
+      {
+        [...links, { href: loginUrl, label: "Log in" }].map((l) => (
+          <li>
+            <a href={l.href} rel={l.rel} class="block rounded-xl px-4 py-3.5 text-lg text-white no-underline hover:bg-white/10">
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <Button href={signupUrl} class="mt-2 w-full" arrow>Get Started</Button>
+  </nav>
+</header>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>("[data-menu-button]");
+  const menu = document.querySelector<HTMLElement>("[data-menu]");
+  if (button && menu) {
+    const setOpen = (open: boolean) => {
+      button.setAttribute("aria-expanded", String(open));
+      menu.classList.toggle("hidden", !open);
+      button.querySelector("[data-menu-open]")?.classList.toggle("hidden", open);
+      button.querySelector("[data-menu-close]")?.classList.toggle("hidden", !open);
+    };
+    button.addEventListener("click", () => setOpen(button.getAttribute("aria-expanded") !== "true"));
+    // Following a link (e.g. #sharing on this page) or pressing Escape closes it.
+    menu.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).closest("a")) setOpen(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && button.getAttribute("aria-expanded") === "true") {
+        setOpen(false);
+        button.focus();
+      }
+    });
+  }
+</script>

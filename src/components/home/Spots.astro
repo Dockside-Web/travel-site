@@ -1,0 +1,63 @@
+---
+// One trip up close: the phone with the Mexico City trip, beside what each
+// spot keeps.
+import PhoneTrip from "./PhoneTrip.astro";
+import Route from "./Route.astro";
+
+const details = [
+  {
+    title: "Stars and favorites",
+    text: "Rate everything, heart the few you'd fly back for.",
+    icon: `<path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>`,
+  },
+  {
+    title: "Notes, down to the dish",
+    text: "Tuna tostadas at Contramar. Ask for the terrace.",
+    icon: `<path d="M5.5 3.5h13v17h-13z"/><path d="M8.5 8.5h7M8.5 12h7M8.5 15.5h4"/>`,
+  },
+  {
+    title: "Found again in seconds",
+    text: "Search trips, spots and dishes, years later.",
+    icon: `<circle cx="11" cy="11" r="6"/><path d="M15.5 15.5L20 20"/>`,
+  },
+];
+---
+
+<section id="spots" class="mx-auto flex max-w-7xl flex-wrap items-center gap-x-18 gap-y-14 px-4 pt-20 pb-20 sm:px-8 md:pt-28 md:pb-24">
+  <!-- Wide screens only: narrower ones show this phone in front of the hero's laptop -->
+  <div class="relative hidden min-w-0 flex-[1_1_30rem] justify-center md:py-10 lg:flex" data-reveal>
+    <PhoneTrip class="relative -rotate-3 md:scale-115" />
+    <!-- A dashed route from the phone up to a pin beside the heading -->
+    <Route class="top-2 -right-4 hidden lg:block xl:right-0" d="M20 150 C 70 150, 70 80, 120 90 S 180 70, 172 34" pinX={172} pinY={34} />
+  </div>
+
+  <div class="flex-[1_1_25rem] lg:max-w-[36rem]">
+    <h2 class="section-title">The spots worth going back to.</h2>
+    <p class="mb-9 text-body">Every place from every trip keeps its stars, your notes and the thing you'd order again.</p>
+    <ul class="grid gap-6.5">
+      {
+        details.map((d) => (
+          <li class="flex gap-4.5">
+            <span class="inline-flex size-12 flex-none items-center justify-center rounded-xl bg-fog">
+              <svg
+                class="size-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#4a6a86"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                set:html={d.icon}
+              />
+            </span>
+            <div>
+              <h3 class="mb-1 text-[1.35rem] leading-tight font-semibold text-ink">{d.title}</h3>
+              <p class="text-[1.05rem] text-body">{d.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

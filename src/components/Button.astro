@@ -1,0 +1,42 @@
+---
+interface Props {
+  href: string;
+  // sand: the main call to action. slate: the second one on light
+  // backgrounds. outline: the second one over a photo.
+  variant?: "sand" | "slate" | "outline";
+  size?: "sm" | "md" | "lg";
+  // Adds the → after the label.
+  arrow?: boolean;
+  // e.g. "nofollow" on "Try the demo", which signs the visitor in to the demo
+  rel?: string;
+  class?: string;
+}
+
+const { href, variant = "sand", size = "md", arrow = false, rel, class: className } = Astro.props;
+
+const variants = {
+  sand: "bg-sand text-ink hover:bg-sand-light",
+  slate: "bg-slate text-white hover:bg-slate-deep",
+  outline: "border-2 border-white/85 text-white hover:bg-white/10",
+};
+
+const sizes = {
+  sm: "min-h-11 px-6 text-base",
+  md: "min-h-12 px-7 text-[1.05rem]",
+  lg: "min-h-14 px-8 text-lg",
+};
+---
+
+<a
+  href={href}
+  rel={rel}
+  class:list={[
+    "inline-flex items-center justify-center gap-2.5 rounded-full font-ui font-semibold no-underline transition-all hover:-translate-y-0.5 active:scale-95",
+    variants[variant],
+    sizes[size],
+    className,
+  ]}
+>
+  <slot />
+  {arrow && <span aria-hidden="true">→</span>}
+</a>

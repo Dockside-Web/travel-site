@@ -1,0 +1,19 @@
+---
+import { site } from "../site.config";
+import { demoUrl, loginUrl, signupUrl } from "../lib/links";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-ink font-ui text-[0.95rem] text-white/75">
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5 px-4 py-9 sm:px-8">
+    <a href="/" class="font-serif text-xl text-white no-underline">{site.name}</a>
+    <nav aria-label="Footer" class="flex flex-wrap gap-x-6 gap-y-2">
+      <a href={signupUrl} class="text-white/75 hover:text-white">Get started</a>
+      <a href={demoUrl} rel="nofollow" class="text-white/75 hover:text-white">Try the demo</a>
+      <a href={loginUrl} class="text-white/75 hover:text-white">Log in</a>
+      <a href="/privacy" class="text-white/75 hover:text-white">Privacy</a>
+    </nav>
+    <span>© {year} {site.legalName || site.name}</span>
+  </div>
+</footer>

@@ -1,0 +1,26 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/home/Hero.astro";
+import Spots from "../components/home/Spots.astro";
+import Trips from "../components/home/Trips.astro";
+import Sharing from "../components/home/Sharing.astro";
+import Together from "../components/home/Together.astro";
+import Demo from "../components/home/Demo.astro";
+import CTA from "../components/CTA.astro";
+
+// Every page needs a unique description (140-160 chars).
+const metaDescription =
+  "Map everywhere you've been, keep the spots you loved with notes and ratings, split trip costs, and share the best of any city with friends in one link.";
+---
+
+<!-- The page follows one trip's life: the map in the hero, then one trip's spots,
+     all your trips, sharing them, splitting the costs, then the demo. -->
+<Layout description={metaDescription} nav="overlay">
+  <Hero />
+  <Spots />
+  <Trips />
+  <Sharing />
+  <Together />
+  <Demo />
+  <CTA />
+</Layout>

@@ -1,0 +1,81 @@
+---
+// The Lisbon page as a friend opens it from a share link, drawn tall in a
+// browser window. Same structure as the app's shared destination page, with
+// the demo account's Lisbon spots. The photo and Alex's note stand in for a
+// real cover and note; re-take as a screenshot once the demo has covers.
+import { Image } from "astro:assets";
+import cover from "../../assets/trips/lisbon.jpg";
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+const spots = [
+  { name: "Cervejaria Ramiro", kind: "Restaurant", note: "Garlic prawns, then a prego for dessert", color: "#a64f2c", stars: 5, fav: true },
+  { name: "Pastéis de Belém", kind: "Café", note: "Pastéis de nata, still warm", color: "#a64f2c", stars: 5, fav: true },
+  { name: "Taberna da Rua das Flores", kind: "Restaurant", note: "", color: "#a64f2c", stars: 5, fav: true },
+  { name: "Miradouro da Senhora do Monte", kind: "Sight", note: "", color: "#666b3a", stars: 5, fav: false },
+  { name: "LX Factory", kind: "Shop", note: "", color: "#5f5a94", stars: 4, fav: false },
+  { name: "Park Bar", kind: "Bar", note: "", color: "#7c4d5e", stars: 4, fav: false },
+];
+const filters = ["All 7", "Eat 4", "Drink 1", "See & do 1", "Shop 1"];
+---
+
+<div
+  role="img"
+  aria-label="The Lisbon page as a friend sees it: a photo of a Lisbon tram, a note from the person who shared it, then their spots with stars and notes, each with a button to add it to the friend's own wishlist."
+  class:list={["relative h-[36rem] w-full max-w-[29.5rem] overflow-hidden rounded-[14px] bg-app-paper shadow-[0_40px_80px_-30px_rgba(35,49,61,0.5)] sm:h-[46rem] lg:h-[56rem]", className]}
+>
+  <div aria-hidden="true" class="font-ui text-[#1e2b2a]">
+    <div class="flex h-[34px] items-center gap-[7px] bg-[#ebe6dd] px-3.5">
+      <span class="size-2.5 rounded-full bg-[#e2a08f]"></span>
+      <span class="size-2.5 rounded-full bg-[#ecc977]"></span>
+      <span class="size-2.5 rounded-full bg-[#a9c49a]"></span>
+      <span class="ml-3 flex h-5 flex-1 items-center rounded-md bg-[#f8f5ef] px-2.5 text-[11px] text-[#8a8a80]">travel map &amp; journal · shared link</span>
+    </div>
+    <div class="flex items-baseline justify-between border-b border-app-line px-[18px] py-3">
+      <span class="font-serif text-base font-medium">Travel Map &amp; Journal</span>
+      <span class="text-[11.5px] text-app-muted">Shared by Alex</span>
+    </div>
+    <Image src={cover} alt="" widths={[480, 960]} sizes="472px" class="block aspect-[16/9] w-full object-cover" />
+    <div class="px-5 pt-[18px] pb-6">
+      <p class="text-[10px] font-semibold tracking-[0.14em] text-app-muted">PORTUGAL</p>
+      <p class="mt-0.5 mb-1.5 font-serif text-[38px] leading-[1.05]">Lisbon</p>
+      <p class="mb-3.5 text-xs text-app-muted"><strong class="text-[#1e2b2a]">7</strong> spots · <strong class="text-[#1e2b2a]">3</strong> favorites · <strong class="text-[#1e2b2a]">2</strong> trips</p>
+      <div class="mb-[18px] rounded-[10px] bg-[#e8e1d3] px-3.5 py-3 text-[12.5px] leading-[1.45]">
+        <span class="mb-[3px] block text-[10px] font-semibold tracking-[0.12em] text-app-muted">A NOTE FROM ALEX</span>
+        Go hungry. Ramiro is the one I'd fly back for.
+      </div>
+      <p class="mb-2 font-serif text-[21px]">Spots</p>
+      <div class="mb-2 flex gap-1.5 overflow-hidden">
+        {filters.map((f, i) => <span class:list={["flex-none rounded-full px-2.5 py-1 text-[11px]", i === 0 ? "bg-app-green text-white" : "bg-[#e6dfd1]"]}>{f}</span>)}
+      </div>
+      {
+        spots.map((s) => (
+          <div class="flex gap-2.5 border-t border-app-line py-2.5">
+            <span class="mt-1.5 size-2 flex-none rounded-full" style={{ background: s.color }} />
+            <div class="min-w-0 flex-1">
+              <p class="font-serif text-[15px] leading-tight">
+                {s.name}
+                {s.fav && <span class="text-app-star"> ♥</span>}
+              </p>
+              <p class="mt-0.5 text-[9px] font-semibold tracking-[0.12em] uppercase" style={{ color: s.color }}>
+                {s.kind}
+              </p>
+              {s.note && <p class="mt-0.5 text-[11.5px]">{s.note}</p>}
+            </div>
+            <div class="flex-none text-right">
+              <span class="text-[10px] text-app-star">
+                {"★".repeat(s.stars)}
+                <span class="text-app-line">{"★".repeat(5 - s.stars)}</span>
+              </span>
+              <span class="mt-1 block text-[10px] text-app-green">+ Wishlist</span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  <div aria-hidden="true" class="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,rgba(241,236,226,0),#f1ece2)]"></div>
+</div>

@@ -1,0 +1,49 @@
+---
+// A torn-paper edge along the bottom (or top) of a section, filled with the
+// colour of the section it tears into. The tear is generated at build time;
+// pass a different `seed` so two edges on a page don't look identical.
+interface Props {
+  fill: string;
+  position?: "bottom" | "top";
+  seed?: number;
+}
+const { fill, position = "bottom", seed: start = 11 } = Astro.props;
+
+let seed = start;
+const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+// A random walk in small steps, with the odd deeper bite, reads as torn paper.
+const edge: [number, number][] = [];
+let y = 26;
+for (let x = 0; x <= 1440; x += 3 + Math.floor(rnd() * 6)) {
+  y += (rnd() - 0.5) * 7;
+  if (rnd() < 0.03) y += (rnd() - 0.5) * 18;
+  y = Math.max(10, Math.min(46, y + (26 - y) * 0.04));
+  edge.push([x, y]);
+}
+edge.push([1440, 24]);
+// The pale paper fibres showing just above the tear
+const fibre = edge.map(([x, yy]) => [x, yy - 2 - rnd() * 2.5] as [number, number]);
+// A soft shadow just above the tear
+const shade = edge.map(([x, yy]) => [x, yy - 4] as [number, number]);
+const path = (pts: [number, number][]) => `M0 60 L0 ${pts[0][1].toFixed(1)} ${pts.map(([x, yy]) => `L${x} ${yy.toFixed(1)}`).join(" ")} L1440 60 Z`;
+const blurId = `tear-shade-${start}`;
+---
+
+<!-- The shadow is a blurred copy of the tear drawn inside the SVG (not a CSS
+     drop-shadow), so it can't leak out as a line along the straight bottom edge. -->
+<svg
+  aria-hidden="true"
+  viewBox="0 0 1440 60"
+  preserveAspectRatio="none"
+  class:list={["pointer-events-none absolute inset-x-0 z-[1] block h-8 w-full md:h-[60px]", position === "bottom" ? "-bottom-0.5" : "-top-0.5 -scale-y-100"]}
+>
+  <defs>
+    <filter id={blurId} x="-5%" y="-50%" width="110%" height="200%">
+      <feGaussianBlur stdDeviation="2.5"></feGaussianBlur>
+    </filter>
+  </defs>
+  <path d={path(shade)} fill="#000000" fill-opacity="0.2" filter={`url(#${blurId})`}></path>
+  <path d={path(fibre)} fill="#ffffff" fill-opacity="0.75"></path>
+  <path d={path(edge)} fill={fill}></path>
+</svg>

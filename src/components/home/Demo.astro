@@ -1,0 +1,108 @@
+---
+// "Try the demo": the demo account's real trips as photo cards, each with a
+// passport stamp that thumps down when the cards scroll into view.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { demoUrl } from "../../lib/links";
+import Button from "../Button.astro";
+import Route from "./Route.astro";
+import lisbon from "../../assets/trips/lisbon.jpg";
+import mexicoCity from "../../assets/trips/mexico-city.jpg";
+import charleston from "../../assets/trips/charleston.jpg";
+import iceland from "../../assets/trips/iceland.jpg";
+import chicago from "../../assets/trips/chicago.jpg";
+
+interface Trip {
+  photo: ImageMetadata;
+  alt: string;
+  name: string;
+  when: string;
+  stamp: [string, string];
+  ink: string;
+  tilt: number;
+}
+// From the demo account (travel-app scripts/seed.ts): three of its trips, its
+// home, and the trip coming up. The photos are stock.
+const trips: Trip[] = [
+  { photo: lisbon, alt: "A yellow tram on a Lisbon street", name: "Lisbon & Porto", when: "May 1 – 8, 2025", stamp: ["LISBON", "MAY 2025"], ink: "#a64f2c", tilt: -10 },
+  { photo: mexicoCity, alt: "The Palacio de Bellas Artes in Mexico City", name: "Mexico City", when: "Feb 14 – 19, 2026", stamp: ["MEXICO", "FEB 2026"], ink: "#4a6a86", tilt: 8 },
+  { photo: charleston, alt: "Pastel houses and palm trees on Rainbow Row in Charleston", name: "Charleston", when: "South Carolina", stamp: ["USA", "SC"], ink: "#23313d", tilt: -6 },
+  { photo: chicago, alt: "The Chicago River and skyline", name: "Home: Chicago", when: "Plus past homes", stamp: ["HOME", "CHICAGO"], ink: "#3c5a74", tilt: 10 },
+  { photo: iceland, alt: "Driving Iceland's ring road under a grey sky", name: "Iceland ring road", when: "Coming up", stamp: ["ICELAND", "SOON"], ink: "#a64f2c", tilt: -8 },
+];
+---
+
+<section id="demo" class="bg-fog pt-16 pb-28 md:pt-24 md:pb-40">
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-x-14 gap-y-14 px-4 sm:px-8">
+    <div class="relative max-w-[26rem] flex-[1_1_21rem]">
+      <!-- A dashed route climbing to a pin, in the space above the heading -->
+      <Route class="-top-44 left-0 hidden lg:block" d="M8 152 C 40 150, 50 100, 95 105 S 160 90, 168 40" pinX={168} pinY={40} pin="sand" hole="#e9eef0" />
+      <h2 class="section-title">See it full of trips before you add yours.</h2>
+      <p class="text-body">
+        The demo account is already full of trips, spots, expenses and places on the wishlist. Click around as much as you like. It's
+        read-only, so nothing you do is saved.
+      </p>
+      <div class="mt-8 grid min-[420px]:flex">
+        <Button href={demoUrl} rel="nofollow" size="lg" variant="slate" arrow>Try the demo</Button>
+      </div>
+    </div>
+
+    <div class="stamps grid flex-[1_1_40rem] grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 sm:gap-x-5" data-reveal>
+      {
+        trips.map((t, i) => (
+          <figure class="relative">
+            <div class="relative aspect-[3/4] overflow-hidden rounded-2xl shadow-[0_24px_40px_-26px_rgba(35,49,61,0.6)]">
+              <Image src={t.photo} alt={t.alt} widths={[300, 600]} sizes="(min-width: 1024px) 240px, 45vw" class="h-full w-full object-cover" />
+              <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(180deg,rgba(35,49,61,0)_45%,rgba(35,49,61,0.8)_100%)]" />
+              <figcaption class="absolute inset-x-4 bottom-3.5 text-white">
+                <span class="block font-serif text-xl leading-tight font-semibold md:text-[1.4rem]">{t.name}</span>
+                <span class="font-ui text-[0.82rem] opacity-90">{t.when}</span>
+              </figcaption>
+            </div>
+            <div
+              aria-hidden="true"
+              class="stamp absolute -top-4 -right-1 flex sm:-right-3 size-[4.6rem] flex-col items-center justify-center rounded-full bg-linen text-center font-ui font-semibold tracking-[0.1em] md:-right-4 md:size-[5.75rem]"
+              style={{ "--r": `${t.tilt}deg`, "--ink": t.ink, animationDelay: `${0.3 + i * 0.25}s` }}
+            >
+              <span class:list={["font-serif leading-tight tracking-[0.02em]", t.stamp[0].length > 6 ? "text-[0.66rem] md:text-[0.78rem]" : "text-[0.78rem] md:text-[0.9rem]"]}>{t.stamp[0]}</span>
+              <span class="mt-0.5 text-[0.5rem]">{t.stamp[1]}</span>
+            </div>
+          </figure>
+        ))
+      }
+      <div class="flex items-center justify-center rounded-2xl border-2 border-dashed border-line p-5 text-center font-ui text-[0.95rem] text-muted">
+        And more<br />in the demo
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stamp {
+    color: var(--ink);
+    border: 2.5px solid var(--ink);
+    box-shadow:
+      inset 0 0 0 3px var(--color-linen),
+      inset 0 0 0 4.5px var(--ink);
+    transform: rotate(var(--r));
+    opacity: 0.95;
+  }
+  /* With JS, the stamps wait for the cards to scroll in, then thump down. */
+  :global(.js) .stamps .stamp {
+    opacity: 0;
+  }
+  :global(.js) .stamps:global(.revealed) .stamp {
+    animation: thump 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+    animation-delay: inherit;
+  }
+  @keyframes thump {
+    from {
+      transform: rotate(var(--r)) scale(1.9);
+      opacity: 0;
+    }
+    to {
+      transform: rotate(var(--r)) scale(1);
+      opacity: 0.95;
+    }
+  }
+</style>

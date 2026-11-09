@@ -1,0 +1,26 @@
+---
+// The screenshot hangs down into the fog of Sharing below (Sharing pads its
+// top to make room), so the two sections share one picture.
+import AppWindow from "../AppWindow.astro";
+import trips from "../../assets/app-trips.png";
+---
+
+<section id="trips" class="relative z-10 mx-auto max-w-7xl px-4 pt-8 sm:px-8 md:pt-12">
+  <div class="mb-10 flex flex-wrap items-end justify-between gap-x-16 gap-y-5 md:mb-12">
+    <h2 class="section-title mb-0 max-w-[35rem] flex-[1_1_26rem]">Fifteen years of travel, finally in one place.</h2>
+    <div class="max-w-[33rem] flex-[1_1_24rem]">
+      <p class="text-body">
+        Each trip keeps its dates, a cover photo and every spot you loved, so you can find that one restaurant years later. Catching up?
+        Quick add a whole list of past trips in one go.
+      </p>
+    </div>
+  </div>
+  <div class="-mb-24 md:-mb-56" data-reveal>
+    <AppWindow
+      src={trips}
+      alt="The Trips page in the app: a search box and cards for a Charleston visit, Mexico City and a long weekend in Marrakech, each with a cover photo, its month and how many spots."
+      sizes="(min-width: 1280px) 1216px, 100vw"
+      shadow="dark"
+    />
+  </div>
+</section>

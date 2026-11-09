@@ -1,0 +1,76 @@
+---
+import { site } from "../../site.config";
+
+interface Props {
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { schema } = Astro.props;
+const { business } = site;
+
+const base = Astro.site ?? Astro.url;
+const siteURL = new URL("/", base).href;
+const businessId = `${siteURL}#business`;
+const toURL = (path: string) => (path ? new URL(path, base).href : "");
+
+// Drops empty strings/arrays/nulls so we never ship half-filled schema.
+const clean = (obj: Record<string, unknown>) =>
+  Object.fromEntries(
+    Object.entries(obj).filter(([, v]) => v !== "" && v != null && !(Array.isArray(v) && v.length === 0)),
+  );
+
+const { address } = business;
+const hasAddress = Boolean(address.street && address.city);
+
+const businessSchema = clean({
+  "@type": business.type,
+  "@id": businessId,
+  name: site.name,
+  legalName: site.legalName,
+  description: site.description,
+  url: siteURL,
+  logo: toURL(site.logo),
+  image: toURL(site.ogImage),
+  telephone: business.phone,
+  email: business.email,
+  priceRange: business.priceRange,
+  hasMap: business.mapUrl,
+  sameAs: Object.values(site.social).filter(Boolean),
+  areaServed: business.areaServed,
+  address: hasAddress
+    ? clean({
+        "@type": "PostalAddress",
+        streetAddress: address.street,
+        addressLocality: address.city,
+        addressRegion: address.region,
+        postalCode: address.postalCode,
+        addressCountry: address.country,
+      })
+    : null,
+  geo: business.geo ? { "@type": "GeoCoordinates", latitude: business.geo.lat, longitude: business.geo.lng } : null,
+  openingHoursSpecification: business.hours.map((h) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: h.days,
+    opens: h.opens,
+    closes: h.closes,
+  })),
+});
+
+const websiteSchema = clean({
+  "@type": "WebSite",
+  "@id": `${siteURL}#website`,
+  url: siteURL,
+  name: site.name,
+  inLanguage: site.lang,
+  publisher: { "@id": businessId },
+});
+
+const extra = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [businessSchema, websiteSchema, ...extra],
+};
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(graph).replace(/</g, "\\u003c")} />

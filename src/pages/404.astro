@@ -1,0 +1,14 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Button from "../components/Button.astro";
+import Pin from "../components/Pin.astro";
+---
+
+<Layout title="Page Not Found" noindex>
+  <section class="mx-auto flex max-w-2xl flex-col items-center px-4 py-32 text-center">
+    <Pin class="h-16 w-auto" />
+    <h1 class="mt-6 mb-4 text-5xl font-semibold text-ink">Off the map.</h1>
+    <p class="mb-10 text-xl text-body">There's nothing at this address. It may have moved, or the link may be mistyped.</p>
+    <Button href="/" variant="slate" arrow>Back to the home page</Button>
+  </section>
+</Layout>

@@ -1,0 +1,50 @@
+---
+// DRAFT: written from what the app does today (see travel-app/README.md and
+// docs/plan.md). Have it reviewed before launch, then remove `noindex` and
+// take "/privacy" out of sitemapExclude in astro.config.mjs.
+import Layout from "../layouts/Layout.astro";
+import { site } from "../site.config";
+
+const metaDescription =
+  "What Travel Map & Journal keeps about you, who can see it, the services it uses for maps, search and exchange rates, and how to download or delete it.";
+---
+
+<Layout title="Privacy" description={metaDescription} noindex>
+  <article class="mx-auto max-w-3xl px-4 pt-20 pb-28 sm:px-8 [&_h2]:mt-12 [&_h2]:mb-3 [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:text-ink [&_li]:mb-2 [&_p]:mb-4 [&_p]:text-body [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:text-body">
+    <h1 class="mb-4 text-5xl font-semibold text-ink">Privacy</h1>
+    <p class="text-xl">{site.name} is a private travel journal. Here's what it keeps, who can see it, and how to take it with you.</p>
+
+    <h2>What it keeps</h2>
+    <ul>
+      <li>Your account: your name, email, and a hashed password (or your Google login, if you sign in with Google).</li>
+      <li>What you add: trips, spots, notes, ratings, homes, your wishlist, and the expenses and splits on your trips.</li>
+      <li>One cover photo per trip or home, if you add one. Location data is removed from photos when they're uploaded.</li>
+    </ul>
+
+    <h2>Who can see it</h2>
+    <p>Only you, unless you share. There's no public profile, feed or followers.</p>
+    <ul>
+      <li><strong>Share links</strong> show a read-only page of one trip or destination to anyone who has the link. A spots-only link never shows costs or who went. Stopping sharing deletes the link.</li>
+      <li><strong>People on a trip</strong> you've shared with them see that trip, and can add to it if you allow it.</li>
+      <li>Your wishlist and your homes' dates are never on share links.</li>
+    </ul>
+
+    <h2>Services it uses</h2>
+    <ul>
+      <li><strong>Cloudflare</strong> hosts the app, its database and photos.</li>
+      <li><strong>Photon</strong> (OpenStreetMap) answers place searches. What you type in a search is sent to it; your account isn't.</li>
+      <li><strong>OpenFreeMap</strong> serves the map tiles.</li>
+      <li><strong>Frankfurter</strong> (European Central Bank rates) supplies exchange rates. No personal data is sent.</li>
+      <li><strong>Google</strong>, only if you choose to sign in with Google.</li>
+    </ul>
+
+    <h2>Your data is yours</h2>
+    <p>
+      “Download your data” in Settings gives you everything you've written in one file, any time. Deleting your account deletes your
+      trips, spots and photos. Spots you added to someone else's trip pass to that trip's owner.
+    </p>
+
+    <h2>Questions</h2>
+    <p>[Contact email to add before launch.]</p>
+  </article>
+</Layout>

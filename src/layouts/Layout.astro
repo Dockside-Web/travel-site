@@ -1,0 +1,77 @@
+---
+import "../styles/global.css";
+import { existsSync } from "node:fs";
+import { Font } from "astro:assets";
+import { site } from "../site.config";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import SEO, { type Props as SEOProps } from "../components/head/SEO.astro";
+import StructuredData from "../components/head/StructuredData.astro";
+import Analytics from "../components/head/Analytics.astro";
+
+interface Props extends SEOProps {
+  // Extra JSON-LD for this page (FAQPage, Service, BreadcrumbList...).
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  // "overlay": a white nav over the page's own photo hero. "solid": dark ink bar.
+  nav?: "overlay" | "solid";
+}
+
+const { schema, nav = "solid", ...seo } = Astro.props;
+
+// Only link icons that exist in /public.
+const hasAppleIcon = existsSync("public/apple-touch-icon.png");
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+    <SEO {...seo} />
+
+    <Font cssVariable="--font-serif" preload={[{ weight: "400", style: "normal" }]} />
+    <Font cssVariable="--font-sans" />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {hasAppleIcon && <link rel="apple-touch-icon" href="/apple-touch-icon.png" />}
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <StructuredData schema={schema} />
+    <Analytics />
+
+    {/* Page-specific head tags: <Fragment slot="head">...</Fragment> */}
+    <slot name="head" />
+  </head>
+  <body class="flex min-h-screen flex-col overflow-x-clip bg-linen text-lg leading-relaxed antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:shadow-lg"
+    >
+      Skip to content
+    </a>
+    <Navigation overlay={nav === "overlay"} />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      // Fade-up for any element with data-reveal (styles in global.css)
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("revealed");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+      document.querySelectorAll("[data-reveal]").forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

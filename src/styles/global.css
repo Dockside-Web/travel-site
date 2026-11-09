@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/* Brand: "Misty harbour". Slate blue, fog and linen, with warm sand buttons,
+   Source Serif 4 for words and Instrument Sans for small interface-like text.
+   The app itself is green and cream; the site stays cool and blue so its
+   screenshots stand out from the page around them. */
+@theme {
+  --color-slate: #4a6a86; /* main colour: links, the costs band, secondary buttons */
+  --color-slate-deep: #3c5a74;
+  --color-fog: #e9eef0; /* tinted sections */
+  --color-linen: #f6f2ea; /* the page */
+  --color-sand: #d8b48a; /* main buttons, the board's label */
+  --color-sand-light: #e3c49f;
+  --color-ink: #23313d; /* headings, the board, the footer */
+  --color-body: #46525d;
+  --color-muted: #5f6a74;
+  --color-line: #dcd6cb;
+  --color-tile: #34485a; /* departure board tiles */
+  --color-tile-dark: #2d3f50;
+
+  /* App colours, for the hand-drawn app screens */
+  --color-app-paper: #f1ece2;
+  --color-app-line: #ddd5c6;
+  --color-app-muted: #62685f;
+  --color-app-star: #e0a826;
+  --color-app-eat: #a64f2c;
+  --color-app-see: #666b3a;
+  --color-app-drink: #7c4d5e;
+  --color-app-shop: #5f5a94;
+  --color-app-green: #23544f;
+
+  --font-brand: var(--font-serif);
+  --font-headers: var(--font-serif);
+  --font-ui: var(--font-sans);
+}
+
+/* Force hover to work on all devices (especially laptops with touchscreens) */
+@custom-variant hover (&:hover);
+
+@layer base {
+  html {
+    /* Keeps anchor targets from hiding under a fixed header */
+    scroll-padding-top: 6rem;
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    font-family: var(--font-brand);
+    color: var(--color-ink);
+    background: var(--color-linen);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-headers);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-sand);
+    outline-offset: 3px;
+  }
+
+  /* Respect users who have reduced motion turned on in their OS */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Fade-up on scroll. Add data-reveal to any element. Content stays visible
+     if JS fails (the .js class is added in Layout.astro). */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(2rem);
+    transition:
+      opacity 0.8s ease-out,
+      transform 0.8s ease-out;
+  }
+  .js [data-reveal].revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  .section-title {
+    @apply mb-5 text-4xl leading-[1.08] font-semibold tracking-[-0.01em] text-ink md:text-5xl;
+  }
+}

@@ -1,0 +1,22 @@
+---
+// A short dashed route ending in a pin, for tying one section to the next.
+// `d` is drawn in a 200 × 160 box; the pin lands on (pinX, pinY).
+import Pin from "../Pin.astro";
+
+interface Props {
+  d: string;
+  pinX: number;
+  pinY: number;
+  pin?: "slate" | "sand";
+  hole?: string;
+  class?: string;
+}
+const { d, pinX, pinY, pin = "slate", hole = "#f6f2ea", class: className } = Astro.props;
+---
+
+<div aria-hidden="true" class:list={["pointer-events-none absolute h-40 w-50", className]}>
+  <svg viewBox="0 0 200 160" class="absolute inset-0 h-full w-full overflow-visible">
+    <path d={d} fill="none" stroke="#b9a07e" stroke-width="2" stroke-dasharray="6 7" stroke-linecap="round"></path>
+  </svg>
+  <Pin color={pin} hole={hole} class="absolute h-11 w-auto -translate-x-1/2 -translate-y-full" style={`left: ${(pinX / 200) * 100}%; top: ${(pinY / 160) * 100}%`} />
+</div>

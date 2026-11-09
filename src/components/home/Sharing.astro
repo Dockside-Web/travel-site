@@ -1,0 +1,53 @@
+---
+import Pin from "../Pin.astro";
+import SharedLisbon from "./SharedLisbon.astro";
+
+const ways = [
+  {
+    title: "Share a destination",
+    text: "Your best spots in a city, state or country, gathered from every trip you've taken there.",
+  },
+  {
+    title: "Share a trip's spots",
+    text: "For friends who want tips: day by day, with ratings and notes. Never what it cost or who you went with.",
+  },
+  {
+    title: "Share with your travel crew",
+    text: "The whole trip, costs included, for the people who went. They can join and add their own spots and expenses.",
+    sand: true,
+  },
+];
+---
+
+<!-- Starts under the Trips screenshot, which hangs down into it, and ends at
+     the costs band's torn top. The extra top padding is the screenshot's overhang. -->
+<section id="sharing" class="bg-fog pt-40 pb-24 md:pt-80 md:pb-36">
+  <div class="mx-auto max-w-7xl px-4 sm:px-8">
+    <div class="flex flex-wrap items-center gap-x-20 gap-y-14">
+      <div class="order-2 flex min-w-0 flex-[1_1_29.5rem] justify-center lg:order-none lg:flex-[0_1_29.5rem]" data-reveal>
+        <SharedLisbon class="lg:-rotate-[1.5deg]" />
+      </div>
+      <div class="max-w-[33rem] flex-[1_1_25rem]">
+        <h2 class="section-title">“You've been to Lisbon, right? Where should we eat?”</h2>
+        <p class="mb-10 text-body">
+          Every trip to a city comes together on one page. Send it in one link, and your friend gets your ratings, your
+          notes and what not to miss. They don't need an account to open it, and if they have one, they can save your spots to their own
+          wishlist.
+        </p>
+        <ul class="grid gap-6">
+          {
+            ways.map((w) => (
+              <li class="flex gap-4">
+                <Pin color={w.sand ? "sand" : "slate"} hole="#e9eef0" class="mt-1 h-[34px] w-auto flex-none" />
+                <div>
+                  <h3 class="mb-1 text-[1.4rem] font-semibold text-ink">{w.title}</h3>
+                  <p class="text-[1.05rem] text-body">{w.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+---
+// The costs band. Follows Sharing, whose last item ("your travel crew, costs
+// included") leads into it, and shows the same Lisbon & Porto trip. Torn at
+// both ends: out of Sharing's fog at the top, into the demo's fog below.
+import AppWindow from "../AppWindow.astro";
+import Route from "./Route.astro";
+import TornEdge from "./TornEdge.astro";
+import expenses from "../../assets/app-expenses.png";
+---
+
+<section id="costs" class="relative bg-slate pt-28 pb-28 text-white md:pt-40 md:pb-40">
+  <TornEdge fill="#e9eef0" position="top" seed={41} />
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-x-16 gap-y-12 px-4 sm:px-8">
+    <div class="relative z-[2] max-w-[25rem] flex-[1_1_21rem]">
+      <!-- The travel crew's sand pin, at the end of a dashed route above the heading -->
+      <Route class="-top-44 left-0 hidden lg:block" d="M10 10 C 20 70, 80 60, 100 100 S 150 120, 160 140" pinX={160} pinY={140} pin="sand" hole="#4a6a86" />
+      <h2 class="section-title text-white">Split the costs, not the friendship.</h2>
+      <p class="text-white/88">
+        Log what you paid in any currency. Split it equally, by shares or item by item, even with friends who never sign up. Everyone sees
+        totals in their own currency, and settling up takes the fewest payments.
+      </p>
+    </div>
+    <div class="min-w-0 flex-[1_1_40rem]" data-reveal>
+      <AppWindow
+        src={expenses}
+        alt="The Expenses page for Lisbon & Porto: $2,963.74 spent, $1,487.42 as your share, $849.38 owed to you, and each expense listed in euros with its dollar value and who paid."
+        sizes="(min-width: 1280px) 780px, 100vw"
+        shadow="dark"
+      />
+    </div>
+  </div>
+  <TornEdge fill="#e9eef0" seed={29} />
+</section>

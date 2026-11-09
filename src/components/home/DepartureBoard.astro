@@ -1,0 +1,139 @@
+---
+// A split-flap departure board. On load every tile spins through random
+// letters and settles on the first city, then the board flips through the
+// demo account's trips every couple of seconds. With reduced motion it just
+// shows the first city.
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+// The demo account's trips (Iceland is the one coming up).
+const cities = ["ICELAND", "LISBON", "MARRAKECH", "MEXICO CITY", "CHARLESTON"];
+const TILES = 11;
+const SPIN = 14; // random letters that whizz past before the first city
+const rows = cities.map((c) => c.padEnd(TILES, " "));
+
+// Seeded so every build (and the server and client) agree.
+let seed = 7;
+const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+const tiles = Array.from({ length: TILES }, (_, i) => ({
+  spin: Array.from({ length: SPIN }, () => ABC[Math.floor(rnd() * ABC.length)]),
+  letters: rows.map((r) => r[i]),
+  spinDelay: `${(i * 0.06).toFixed(2)}s`,
+  flipDelay: `${(2.1 + i * 0.06).toFixed(2)}s`,
+}));
+---
+
+<div
+  role="img"
+  aria-label={`A departure board titled Where to next, flipping between ${cities.join(", ")}.`}
+  class:list={["board inline-block max-w-full rounded-2xl bg-ink p-3.5 shadow-[0_40px_70px_-30px_rgba(0,0,0,0.55)] sm:px-5.5 sm:pt-5 sm:pb-5.5", className]}
+>
+  <p aria-hidden="true" class="mb-3 flex items-center justify-between gap-6 font-ui text-[11px] font-semibold tracking-[0.22em] text-sand sm:mb-3.5 sm:text-[13px]">
+    <span>WHERE TO NEXT</span>
+    <span class="tracking-[0.12em] text-white/80">DEPARTURES</span>
+  </p>
+  <div aria-hidden="true" class="flex gap-[3px] font-ui font-semibold text-[#fbf7f0] sm:gap-[5px]">
+    {
+      tiles.map((t) => (
+        <span class="tile">
+          <span class="spin" style={{ animationDelay: t.spinDelay }}>
+            {t.spin.map((ch) => <span class="cell">{ch}</span>)}
+            <span class="flip" style={{ animationDelay: t.flipDelay }}>
+              {t.letters.map((ch) => <span class="cell">{ch === " " ? " " : ch}</span>)}
+            </span>
+          </span>
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  /* On phones the tiles shrink with the screen so all 11 always fit:
+     the screen less the page gutter (32px), the board padding (28px) and
+     the gaps between tiles (30px), shared by 11 tiles. */
+  .board {
+    --tw: min(30px, calc((100vw - 90px) / 11));
+    --th: calc(var(--tw) * 1.42);
+    --fs: calc(var(--tw) * 0.82);
+  }
+  @media (min-width: 640px) {
+    .board {
+      --tw: 44px;
+      --th: 62px;
+      --fs: 36px;
+    }
+  }
+  .tile {
+    position: relative;
+    display: inline-block;
+    width: var(--tw);
+    height: var(--th);
+    overflow: hidden;
+    border-radius: 5px;
+    background: linear-gradient(180deg, var(--color-tile) 0 50%, var(--color-tile-dark) 50% 100%);
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+    font-size: var(--fs);
+    line-height: var(--th);
+    text-align: center;
+  }
+  /* the hinge across the middle of each tile */
+  .tile::after {
+    content: "";
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.45);
+  }
+  .cell {
+    display: block;
+    height: var(--th);
+  }
+  .spin,
+  .flip {
+    display: block;
+  }
+  .spin {
+    animation: spin 1.5s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  }
+  .flip {
+    animation: flip 8s cubic-bezier(0.6, 0, 0.4, 1) infinite both;
+  }
+  @keyframes spin {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(var(--th) * -14));
+    }
+  }
+  @keyframes flip {
+    0%,
+    17% {
+      transform: translateY(0);
+    }
+    20%,
+    37% {
+      transform: translateY(calc(var(--th) * -1));
+    }
+    40%,
+    57% {
+      transform: translateY(calc(var(--th) * -2));
+    }
+    60%,
+    77% {
+      transform: translateY(calc(var(--th) * -3));
+    }
+    80%,
+    97% {
+      transform: translateY(calc(var(--th) * -4));
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+</style>
