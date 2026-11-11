@@ -1,5 +1,7 @@
 ---
 import { site } from "../../site.config";
+import { shareImage } from "../../lib/blog";
+import defaultPhoto from "../../assets/hero-lake-calm.jpg";
 
 export interface Props {
   // Page name, e.g. "About". Leave empty on the homepage.
@@ -12,6 +14,10 @@ export interface Props {
   // true = keep this page out of Google (drafts, legal pages, etc.).
   noindex?: boolean;
   type?: "website" | "article";
+  // Articles only: for link previews and search engines.
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  author?: string;
 }
 
 const {
@@ -21,6 +27,9 @@ const {
   imageAlt = site.ogImageAlt,
   noindex = false,
   type = "website",
+  publishedTime,
+  modifiedTime,
+  author,
 } = Astro.props;
 
 
@@ -32,7 +41,9 @@ const fullTitle = (title ? [title, site.name] : [site.name, site.tagline]).filte
 const base = Astro.site ?? Astro.url;
 const path = Astro.url.pathname.replace(/\.html$/, "").replace(/\/index$/, "").replace(/(.)\/$/, "$1");
 const canonicalURL = new URL(path || "/", base).href;
-const imageURL = image ? new URL(image, base).href : "";
+// With no image set anywhere, the home page's lake photo cropped to 1200 × 630.
+const imageURL = new URL(image || (await shareImage(defaultPhoto)), base).href;
+const imageDescription = image ? imageAlt : "A calm lake below misty mountains";
 ---
 
 {/* Primary */}
@@ -55,17 +66,21 @@ const imageURL = image ? new URL(image, base).href : "";
       <meta property="og:image" content={imageURL} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      {imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+      {imageDescription && <meta property="og:image:alt" content={imageDescription} />}
     </>
   )
 }
+
+{publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+{author && <meta name="author" content={author} />}
 
 {/* Twitter / X */}
 <meta name="twitter:card" content={imageURL ? "summary_large_image" : "summary"} />
 <meta name="twitter:title" content={fullTitle} />
 {description && <meta name="twitter:description" content={description} />}
 {imageURL && <meta name="twitter:image" content={imageURL} />}
-{imageURL && imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
+{imageDescription && <meta name="twitter:image:alt" content={imageDescription} />}
 
 {/* Search console verification */}
 {site.verification.google && <meta name="google-site-verification" content={site.verification.google} />}

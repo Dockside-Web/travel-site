@@ -3,9 +3,23 @@ import { site } from "../site.config";
 import { demoUrl, loginUrl, signupUrl } from "../lib/links";
 
 const year = new Date().getFullYear();
+
+// The feature pages and the blog, above the usual row.
+const pages = [
+  { href: "/travel-map", label: "Travel map" },
+  { href: "/countries-visited", label: "Countries visited" },
+  { href: "/split-trip-costs", label: "Split trip costs" },
+  { href: "/share-travel-tips", label: "Share travel tips" },
+  { href: "/blog", label: "Blog" },
+];
 ---
 
 <footer class="bg-ink font-ui text-[0.95rem] text-white/75">
+  <nav aria-label="Features" class="mx-auto max-w-7xl border-b border-white/10 px-4 pt-10 pb-7 sm:px-8">
+    <ul class="flex flex-wrap gap-x-7 gap-y-2">
+      {pages.map((p) => <li><a href={p.href} class="text-white/75 hover:text-white">{p.label}</a></li>)}
+    </ul>
+  </nav>
   <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5 px-4 py-9 sm:px-8">
     <a href="/" class="font-serif text-xl text-white no-underline">{site.name}</a>
     <nav aria-label="Footer" class="flex flex-wrap gap-x-6 gap-y-2">

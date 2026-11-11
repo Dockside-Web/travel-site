@@ -1,0 +1,62 @@
+---
+import FeatureLayout from "../layouts/FeatureLayout.astro";
+import AppWindow from "../components/AppWindow.astro";
+import expenses from "../assets/app-expenses.png";
+
+const points = [
+  {
+    title: "Any currency, real rates",
+    text: "Log what you paid in the currency you paid it in. Totals use the European Central Bank's rate for that day, not today's.",
+  },
+  {
+    title: "Split it how it really went",
+    text: "Equally, exact amounts, percentages, shares, or item by item from the receipt, with tax and tip spread fairly.",
+  },
+  {
+    title: "Friends don't need an account",
+    text: "Add anyone to the trip by name. Those who sign up can join from a link and add their own expenses.",
+  },
+  {
+    title: "Settle up in the fewest payments",
+    text: "Everyone sees what they paid, their share and what they owe, in their own currency. Mark payments as they're made.",
+  },
+];
+---
+
+<FeatureLayout
+  title="Trip expense splitter"
+  description="Split trip costs with friends in any currency: equally, by shares or item by item. Totals at each day's exchange rate, and settling up in the fewest payments."
+  heading="Split trip costs in any currency."
+  intro="Euros for dinner, pounds for the train, dollars for the flights. Log each one as it was paid, split it however it really went, and see who owes what at the end."
+  pointsHeading="Split the costs, not the friendship."
+  points={points}
+>
+  <AppWindow
+    slot="visual"
+    src={expenses}
+    alt="The Expenses page for Lisbon & Porto: $2,963.74 spent, $1,487.42 as your share, $849.38 owed to you, and each expense listed in euros with its dollar value and who paid."
+    sizes="(min-width: 1280px) 640px, 100vw"
+    class="w-full max-w-[40rem]"
+  />
+
+  <div class="max-w-[46rem]">
+    <h2 class="section-title">Why the day's rate matters</h2>
+    <div class="space-y-4 text-body">
+      <p>
+        Converting everything at today's rate is close enough on a two-week trip. Look back at a trip from last year, though, and the numbers
+        drift: what you paid for that hotel isn't what it says you paid.
+      </p>
+      <p>
+        Here each expense keeps the amount and currency you actually paid, and converts at the rate on its own day. Your share, what you're
+        owed and the trip's total all come out in your home currency, and your friend in London sees theirs in pounds. For currencies the
+        central bank doesn't publish, type the rate you got.
+      </p>
+      <p>
+        Expenses sit inside the trip, next to its spots. Group them by kind, by day, by who paid or by where it was, and your Stats page adds
+        up what a year of travel cost you. Only the people on the trip see any of it: <a href="/share-travel-tips" class="text-slate-deep underline decoration-1 underline-offset-4 hover:text-ink"
+          >a link of your tips</a
+        > never shows what anything cost.
+      </p>
+    </div>
+  </div>
+</FeatureLayout>

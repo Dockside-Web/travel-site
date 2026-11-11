@@ -4,6 +4,7 @@
 // both ends: out of Sharing's fog at the top, into the demo's fog below.
 import AppWindow from "../AppWindow.astro";
 import Route from "./Route.astro";
+import MoreLink from "../MoreLink.astro";
 import TornEdge from "./TornEdge.astro";
 import expenses from "../../assets/app-expenses.png";
 ---
@@ -18,6 +19,9 @@ import expenses from "../../assets/app-expenses.png";
       <p class="text-white/88">
         Log what you paid in any currency. Split it equally, by shares or item by item, even with friends who never sign up. Everyone sees
         totals in their own currency, and settling up takes the fewest payments.
+      </p>
+      <p class="mt-7">
+        <MoreLink href="/split-trip-costs" light>More about splitting trip costs</MoreLink>
       </p>
     </div>
     <div class="min-w-0 flex-[1_1_40rem]" data-reveal>

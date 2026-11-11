@@ -1,0 +1,41 @@
+---
+// /blog: the newest post large, then the rest in a grid.
+import Layout from "../../layouts/Layout.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+import Route from "../../components/home/Route.astro";
+import { getPosts } from "../../lib/blog";
+
+const [newest, ...rest] = await getPosts();
+
+const metaDescription =
+  "Notes on keeping track of your travels: mapping where you've been, remembering the spots worth going back to, sharing tips and splitting the costs.";
+---
+
+<Layout title="Blog" description={metaDescription}>
+  <section class="mx-auto max-w-7xl px-4 pt-16 pb-24 sm:px-8 md:pt-24 md:pb-32">
+    <header class="relative mb-14 max-w-[40rem] md:mb-20">
+      <Route class="-top-10 right-[-14rem] hidden lg:block" d="M8 140 C 50 150, 60 90, 110 100 S 170 80, 170 36" pinX={170} pinY={36} />
+      <h1 class="mb-5 text-5xl leading-[1.02] font-semibold tracking-tight text-ink md:text-[4.25rem]">Notes from the map.</h1>
+      <p class="text-xl text-body">
+        How to remember where you've been, keep the places worth going back to, and settle up with the friends you went with.
+      </p>
+    </header>
+
+    {
+      newest ? (
+        <>
+          <PostCard post={newest} wide />
+          {rest.length > 0 && (
+            <div class="mt-20 grid gap-x-10 gap-y-16 border-t border-line pt-16 sm:grid-cols-2 lg:grid-cols-3 md:mt-28">
+              {rest.map((post, i) => (
+                <PostCard post={post} index={i + 1} />
+              ))}
+            </div>
+          )}
+        </>
+      ) : (
+        <p class="text-xl text-body">The first posts are on their way.</p>
+      )
+    }
+  </section>
+</Layout>

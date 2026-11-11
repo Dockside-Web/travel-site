@@ -1,0 +1,35 @@
+---
+// A round passport stamp, as on the home page's demo cards. Two short lines,
+// e.g. ["NOV 10", "2026"].
+interface Props {
+  lines: [string, string];
+  ink?: string;
+  tilt?: number;
+  class?: string;
+}
+const { lines, ink = "#4a6a86", tilt = -8, class: className } = Astro.props;
+---
+
+<div
+  aria-hidden="true"
+  class:list={[
+    "stamp flex size-[4.6rem] flex-col items-center justify-center rounded-full bg-linen text-center font-ui font-semibold tracking-[0.1em] md:size-[5.25rem]",
+    className,
+  ]}
+  style={{ "--r": `${tilt}deg`, "--ink": ink }}
+>
+  <span class="font-serif text-[0.78rem] leading-tight tracking-[0.02em] md:text-[0.88rem]">{lines[0]}</span>
+  <span class="mt-0.5 text-[0.55rem]">{lines[1]}</span>
+</div>
+
+<style>
+  .stamp {
+    color: var(--ink);
+    border: 2.5px solid var(--ink);
+    box-shadow:
+      inset 0 0 0 3px var(--color-linen),
+      inset 0 0 0 4.5px var(--ink);
+    transform: rotate(var(--r));
+    opacity: 0.95;
+  }
+</style>

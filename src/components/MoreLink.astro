@@ -1,0 +1,22 @@
+---
+// A small "More about … →" link from a home page section to its feature page.
+interface Props {
+  href: string;
+  // light: on a dark background (the costs band).
+  light?: boolean;
+  class?: string;
+}
+const { href, light = false, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    "group inline-flex items-center gap-2 font-ui text-[1.05rem] font-semibold underline decoration-1 underline-offset-[0.3em]",
+    light ? "text-white decoration-white/40 hover:decoration-white" : "text-slate-deep decoration-slate/40 hover:text-ink hover:decoration-ink",
+    className,
+  ]}
+>
+  <slot />
+  <span aria-hidden="true" class="no-underline transition-transform group-hover:translate-x-1">→</span>
+</a>

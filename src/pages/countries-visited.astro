@@ -1,0 +1,73 @@
+---
+import FeatureLayout from "../layouts/FeatureLayout.astro";
+import AppWindow from "../components/AppWindow.astro";
+import Stamp from "../components/Stamp.astro";
+import myWorld from "../assets/app-my-world.png";
+
+const points = [
+  {
+    title: "Tick them by continent",
+    text: "Each continent opens to its countries, with a count like “6 of 44”. Search to jump straight to one.",
+  },
+  {
+    title: "US states, too",
+    text: "The states have their own list under North America. Ticking one ticks the US for you.",
+  },
+  {
+    title: "Trips tick countries for you",
+    text: "Add a trip to Lisbon and Portugal is ticked. It stays locked with a note saying why: “From your trip: Lisbon”.",
+  },
+  {
+    title: "Your figures, kept honest",
+    text: "Countries, US states, cities and continents on your map, and a Stats page with where you've been and your trips by year.",
+  },
+];
+
+// The demo account's own countries, as stamps
+const stamps: { lines: [string, string]; ink: string; tilt: number }[] = [
+  { lines: ["PORTUGAL", "2025"], ink: "#a64f2c", tilt: -9 },
+  { lines: ["MEXICO", "2026"], ink: "#4a6a86", tilt: 7 },
+  { lines: ["MOROCCO", "VISITED"], ink: "#23313d", tilt: -4 },
+  { lines: ["ICELAND", "SOON"], ink: "#a64f2c", tilt: 10 },
+];
+---
+
+<FeatureLayout
+  title="Countries visited tracker"
+  description="Keep count of the countries you've visited: tick them by continent, add US states, and watch them fill in on your own travel map. Trips tick them for you."
+  heading="Count the countries you've been to."
+  intro="Tick off countries and US states as you go, or let your trips do it for you. They fill in on your map, and the count stays right because nothing is ticked twice."
+  pointsHeading="A country list that keeps itself up to date."
+  points={points}
+>
+  <AppWindow
+    slot="visual"
+    src={myWorld}
+    alt="My World in the app: a map with every country visited shaded green, numbered pins on the cities, and 10 countries, 5 US states, 18 cities and 4 continents counted at the top."
+    sizes="(min-width: 1280px) 640px, 100vw"
+    class="w-full max-w-[40rem]"
+  />
+
+  <div class="flex flex-wrap items-center gap-x-20 gap-y-14">
+    <div class="max-w-[36rem] flex-[1_1_24rem]">
+      <h2 class="section-title">What counts as “been there”?</h2>
+      <div class="space-y-4 text-body">
+        <p>
+          Everyone has their own rule. Some people count an airport, some need a night's sleep, some need a meal outside the airport. The app
+          doesn't decide for you: tick what you count.
+        </p>
+        <p>
+          What it does do is keep trips and ticks apart. A country that came from a trip is locked to it, so deleting a tick can't quietly
+          undo a trip. And trips that haven't happened yet, or places on your wishlist, never count.
+        </p>
+        <p>
+          Every country you tick shows up on <a href="/travel-map" class="text-slate-deep underline decoration-1 underline-offset-4 hover:text-ink">your travel map</a>, along with the spots from your
+          trips there.
+        </p>
+      </div>
+    </div>
+    <div aria-hidden="true" class="grid flex-[1_1_20rem] grid-cols-2 justify-items-center gap-8 py-4 sm:max-w-[22rem]">
+      {stamps.map((s) => <Stamp lines={s.lines} ink={s.ink} tilt={s.tilt} class="md:size-[7rem]" />)}
+    </div>
+  </div>
+</FeatureLayout>

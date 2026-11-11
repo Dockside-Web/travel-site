@@ -1,0 +1,58 @@
+---
+import FeatureLayout from "../layouts/FeatureLayout.astro";
+import SharedLisbon from "../components/home/SharedLisbon.astro";
+
+const points = [
+  {
+    title: "Share a destination",
+    text: "Your best spots in a city, state or country, gathered from every trip you've taken there.",
+  },
+  {
+    title: "Share a trip's spots",
+    text: "For friends who want tips: day by day, with ratings and notes. Never what it cost or who you went with.",
+  },
+  {
+    title: "No account needed to open it",
+    text: "Anyone with the link sees the page. Friends who have an account can save your spots to their own wishlist.",
+  },
+  {
+    title: "Share with your travel crew",
+    text: "The whole trip, costs included, for the people who went. They can join and add their own spots and expenses.",
+  },
+];
+---
+
+<FeatureLayout
+  title="Share travel recommendations"
+  description="Send friends your best restaurants, bars and sights for a city in one link: your ratings and notes, no account needed to open it, and never what it cost."
+  heading="Send your best spots in one link."
+  intro="“You've been to Lisbon, right? Where should we eat?” Instead of digging through old photos and texts, send the page: every spot you loved there, with your stars and notes."
+  pointsHeading="Three ways to share, each showing only what it should."
+  points={points}
+>
+  <!-- The share page is drawn tall; here it's cut off at the bottom, as if scrolled -->
+  <div slot="visual" class="relative w-full max-w-[29.5rem]">
+    <div class="relative h-[38rem] overflow-hidden rounded-[14px] shadow-[0_40px_80px_-30px_rgba(35,49,61,0.5)] md:h-[50rem]">
+      <SharedLisbon />
+      <div aria-hidden="true" class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-linen"></div>
+    </div>
+  </div>
+
+  <div class="max-w-[46rem]">
+    <h2 class="section-title">A link you can take back</h2>
+    <div class="space-y-4 text-body">
+      <p>
+        Each share link is a long random address, so it can't be guessed. Nobody sees your trips unless you share them, and there's
+        no public profile, feed or followers to find them through.
+      </p>
+      <p>
+        Stop sharing and the link is deleted: anyone who opens it after that gets nothing. Your wishlist and where you live are never on a
+        share link.
+      </p>
+      <p>
+        The spots come from <a href="/travel-map" class="text-slate-deep underline decoration-1 underline-offset-4 hover:text-ink">your map</a>, so a destination page fills itself in as you travel.
+        Go back to Lisbon, add three new places, and the link you sent last year shows them too.
+      </p>
+    </div>
+  </div>
+</FeatureLayout>

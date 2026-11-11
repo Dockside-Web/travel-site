@@ -1,0 +1,57 @@
+---
+import FeatureLayout from "../layouts/FeatureLayout.astro";
+import Laptop from "../components/home/Laptop.astro";
+import PhoneTrip from "../components/home/PhoneTrip.astro";
+
+const points = [
+  {
+    title: "Every spot is a pin",
+    text: "The restaurants, bars, sights and shops from every trip. Tap one for its stars, your notes, “Been 3 times” and the trips it was on.",
+  },
+  {
+    title: "Countries and states filled in",
+    text: "Each country you've been to is shaded, and so is each US state. The card at the top counts countries, states, cities and continents.",
+  },
+  {
+    title: "Filter it down",
+    text: "Show only places to eat, only your favorites, one year or one trip. The button says how many spots are showing.",
+  },
+  {
+    title: "Home is on it too",
+    text: "Where you live shows as a house, with the places you love near it. During a trip, the card says where you are today.",
+  },
+];
+---
+
+<FeatureLayout
+  title="Travel map"
+  description="A personal travel map of everywhere you've been: countries and US states filled in, and every restaurant, bar and sight from your trips as a pin."
+  heading="A map of every place you've been."
+  intro="Countries and US states you've visited fill in, and every spot from every trip is a pin you can open. It's the first thing you see when you open the app."
+  pointsHeading="Your travels at a glance, down to the café."
+  points={points}
+>
+  <Laptop slot="visual" class="w-full max-w-[37.5rem]" />
+
+  <div class="flex flex-wrap items-center gap-x-20 gap-y-14">
+    <div class="flex flex-[0_1_18rem] justify-center max-md:order-2 max-md:flex-auto">
+      <PhoneTrip class="-rotate-3" />
+    </div>
+    <div class="max-w-[36rem] flex-[1_1_24rem]">
+      <h2 class="section-title">Years of trips? Start with the ones you remember.</h2>
+      <div class="space-y-4 text-body">
+        <p>
+          You don't need to fill in a decade of travel to get a good map. Quick add takes a whole list of past trips in one go, up to 30 at
+          a time. Don't remember the dates? A month or just a year is enough.
+        </p>
+        <p>
+          Countries you've been to without a trip to show for it, like a childhood holiday or a layover that turned into a day out, can be
+          ticked straight onto the map. Then add spots as they come back to you: each one lands on the map where it is.
+        </p>
+        <p>
+          Read more about <a href="/countries-visited" class="text-slate-deep underline decoration-1 underline-offset-4 hover:text-ink">counting the countries you've been to</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</FeatureLayout>

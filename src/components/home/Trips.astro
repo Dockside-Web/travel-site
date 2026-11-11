@@ -2,6 +2,7 @@
 // The screenshot hangs down into the fog of Sharing below (Sharing pads its
 // top to make room), so the two sections share one picture.
 import AppWindow from "../AppWindow.astro";
+import MoreLink from "../MoreLink.astro";
 import trips from "../../assets/app-trips.png";
 ---
 
@@ -12,6 +13,9 @@ import trips from "../../assets/app-trips.png";
       <p class="text-body">
         Each trip keeps its dates, a cover photo and every spot you loved, so you can find that one restaurant years later. Catching up?
         Quick add a whole list of past trips in one go.
+      </p>
+      <p class="mt-4">
+        <MoreLink href="/countries-visited">Count the countries you've been to</MoreLink>
       </p>
     </div>
   </div>

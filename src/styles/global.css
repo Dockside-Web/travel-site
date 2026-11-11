@@ -106,3 +106,108 @@
     @apply mb-5 text-4xl leading-[1.08] font-semibold tracking-[-0.01em] text-ink md:text-5xl;
   }
 }
+
+/* Blog posts: the Markdown body. Source Serif at a comfortable reading size,
+   about 68 characters a line. Screenshots get the same paper frame and shadow
+   as the home page's app windows. */
+@layer components {
+  .post-body {
+    max-width: 42rem;
+    font-size: 1.2rem;
+    line-height: 1.75;
+    color: var(--color-body);
+
+    & > * + * {
+      margin-top: 1.4em;
+    }
+    & h2 {
+      margin-top: 2.4em;
+      font-size: 2rem;
+      line-height: 1.15;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--color-ink);
+    }
+    & h3 {
+      margin-top: 2em;
+      font-size: 1.45rem;
+      line-height: 1.25;
+      font-weight: 600;
+      color: var(--color-ink);
+    }
+    & h2 + *,
+    & h3 + * {
+      margin-top: 0.6em;
+    }
+    & a {
+      color: var(--color-slate-deep);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.18em;
+    }
+    & a:hover {
+      color: var(--color-ink);
+    }
+    & strong {
+      font-weight: 600;
+      color: var(--color-ink);
+    }
+    & ul,
+    & ol {
+      padding-left: 1.4em;
+    }
+    & ul {
+      list-style: disc;
+    }
+    & ol {
+      list-style: decimal;
+    }
+    & li + li {
+      margin-top: 0.45em;
+    }
+    & li::marker {
+      color: var(--color-slate);
+    }
+    & blockquote {
+      border-left: 3px solid var(--color-sand);
+      padding-left: 1.2em;
+      font-style: italic;
+      color: var(--color-ink);
+    }
+    & hr {
+      margin: 3em auto;
+      width: 5rem;
+      border: 0;
+      border-top: 2px dashed #b9a07e;
+    }
+    & img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-block: 2.2em;
+      border-radius: 14px;
+      box-shadow: 0 40px 80px -36px rgba(35, 49, 61, 0.5);
+    }
+    & table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+    }
+    & th,
+    & td {
+      border-bottom: 1px solid var(--color-line);
+      padding: 0.6em 0.8em 0.6em 0;
+      text-align: left;
+    }
+    & th {
+      font-weight: 600;
+      color: var(--color-ink);
+    }
+    & code {
+      font-size: 0.88em;
+      background: var(--color-fog);
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+    }
+  }
+}

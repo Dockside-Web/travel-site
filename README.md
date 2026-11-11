@@ -30,6 +30,17 @@ built from the Dockside `astro-website-template`, deployed to Cloudflare Workers
   - `Sharing`: the Lisbon share page drawn tall (`SharedLisbon`) and the three ways to share.
   - `Together`: the costs band, with the Lisbon & Porto expenses screenshot.
   - `Demo`: the demo account's real trips as photo cards, each with a passport stamp.
+- Feature pages: `src/pages/travel-map.astro`, `countries-visited.astro`, `split-trip-costs.astro`
+  and `share-travel-tips.astro`, all on `src/layouts/FeatureLayout.astro` (heading and picture,
+  pinned points on fog, the page's own detail, blog posts that link to it, the demo, the closing
+  band). Linked from the footer.
+- Blog: one Markdown file per post in `src/content/blog/`; the file name is the address
+  (`track-countries-visited.md` → `/blog/track-countries-visited`). The header fields are checked in
+  `src/content.config.ts`. Put photos in
+  `src/assets/` and point `hero:` or `![alt](../../assets/…)` at them. A post shows up under "From
+  the blog" on a feature page by linking to it in its text, e.g. `[your travel map](/travel-map)`.
+  Its link preview is its hero photo cropped to 1200×630. Pages: `src/pages/blog/`; helpers:
+  `src/lib/blog.ts`; RSS at `/rss.xml` once `url` is set (`src/pages/[feed].xml.ts`).
 - `src/components/CTA.astro`: the closing band, with the privacy promise and Get Started.
 - `src/styles/global.css`: the colours ("Misty harbour": slate blue, fog, linen, sand, ink) and
   fonts (Source Serif 4, Instrument Sans, self-hosted through `astro.config.mjs`).
