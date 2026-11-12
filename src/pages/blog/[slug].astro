@@ -1,11 +1,12 @@
 ---
-// One post: title, byline, photo, the Markdown body, then the demo and two
+// One post: the hero (title, byline), its photo across the hero's torn edge, the Markdown body, then the demo and two
 // more posts. Its link preview is the post's photo cropped to 1200 × 630.
 import { Image } from "astro:assets";
 import { render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Button from "../../components/Button.astro";
 import Pin from "../../components/Pin.astro";
+import PageHero from "../../components/PageHero.astro";
 import PostCard from "../../components/blog/PostCard.astro";
 import { demoUrl, signupUrl } from "../../lib/links";
 import { site } from "../../site.config";
@@ -64,24 +65,26 @@ const schema = [
   publishedTime={pubDate}
   author={author}
   schema={schema}
+  nav="overlay"
 >
-  <article class="pt-14 pb-20 md:pt-20 md:pb-28">
-    <header class="mx-auto max-w-[46rem] px-4 sm:px-8">
-      <nav aria-label="Breadcrumb" class="mb-6 font-ui text-[0.95rem]">
-        <a href="/blog" class="text-slate-deep no-underline hover:text-ink"><span aria-hidden="true">←</span> Blog</a>
-      </nav>
-      <h1 class="mb-5 text-[2.6rem] leading-[1.05] font-semibold tracking-tight text-ink md:text-[3.6rem]">{title}</h1>
-      <p class="mb-7 text-xl leading-normal text-body md:text-[1.4rem]">{description}</p>
-      <p class="flex flex-wrap items-center gap-x-2 font-ui text-[0.95rem] text-muted">
-        <span class="font-semibold text-ink">{author}</span>
-        <span aria-hidden="true">·</span>
-        <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
-        <span aria-hidden="true">·</span>
-        <span>{readingTime(post)}</span>
-      </p>
-    </header>
+  <article class="pb-20 md:pb-28">
+    {/* Room at the foot of the hero for the post's photo, which sits across its torn edge. */}
+    <div class="[&>section>div:last-of-type]:pb-36 md:[&>section>div:last-of-type]:pb-48">
+      <PageHero title={title} lede={description} slice="30%" seed={41} long>
+        <nav slot="above" aria-label="Breadcrumb" class="mb-6 font-ui text-[0.95rem]">
+          <a href="/blog" class="text-white/85 no-underline hover:text-white"><span aria-hidden="true">←</span> Blog</a>
+        </nav>
+        <p class="mt-7 flex flex-wrap items-center gap-x-2 font-ui text-[0.95rem] text-white/85">
+          <span class="font-semibold text-white">{author}</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+          <span aria-hidden="true">·</span>
+          <span>{readingTime(post)}</span>
+        </p>
+      </PageHero>
+    </div>
 
-    <div class="mx-auto mt-12 max-w-6xl px-4 sm:px-8 md:mt-14">
+    <div class="relative z-2 mx-auto -mt-24 max-w-6xl px-4 sm:px-8 md:-mt-32">
       <Image
         src={hero}
         alt={heroAlt}
@@ -89,7 +92,7 @@ const schema = [
         sizes="(min-width: 1152px) 1088px, 100vw"
         loading="eager"
         fetchpriority="high"
-        class="aspect-[16/9] w-full rounded-2xl object-cover shadow-[0_40px_80px_-40px_rgba(35,49,61,0.55)]"
+        class="aspect-video w-full rounded-2xl object-cover shadow-[0_40px_80px_-40px_rgba(35,49,61,0.55)]"
       />
     </div>
 
@@ -100,7 +103,7 @@ const schema = [
 
   <!-- The demo, then two more posts -->
   <section class="bg-fog py-20 md:py-24">
-    <div class="mx-auto flex max-w-[46rem] flex-wrap items-center gap-x-10 gap-y-6 px-4 sm:px-8">
+    <div class="mx-auto flex max-w-184 flex-wrap items-center gap-x-10 gap-y-6 px-4 sm:px-8">
       <Pin color="sand" hole="#e9eef0" class="h-14 w-auto flex-none" />
       <div class="min-w-0 flex-[1_1_22rem]">
         <h2 class="mb-2 text-3xl leading-tight font-semibold text-ink">See it full of trips first.</h2>
@@ -117,7 +120,7 @@ const schema = [
     more.length > 0 && (
       <section class="mx-auto max-w-7xl px-4 py-20 sm:px-8 md:py-28">
         <h2 class="section-title mb-12">More from the blog</h2>
-        <div class="grid gap-x-10 gap-y-16 sm:grid-cols-2 lg:max-w-[52rem]">
+        <div class="grid gap-x-10 gap-y-16 sm:grid-cols-2 lg:max-w-208">
           {more.map((p, i) => (
             <PostCard post={p} index={i + 1} headingLevel="h3" />
           ))}

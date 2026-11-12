@@ -6,6 +6,7 @@ import type { ImageMetadata } from "astro";
 import { demoUrl } from "../../lib/links";
 import Button from "../Button.astro";
 import Route from "./Route.astro";
+import Stamp from "../Stamp.astro";
 import lisbon from "../../assets/trips/lisbon.jpg";
 import mexicoCity from "../../assets/trips/mexico-city.jpg";
 import charleston from "../../assets/trips/charleston.jpg";
@@ -34,7 +35,7 @@ const trips: Trip[] = [
 
 <section id="demo" class="bg-fog pt-16 pb-28 md:pt-24 md:pb-40">
   <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-x-14 gap-y-14 px-4 sm:px-8">
-    <div class="relative max-w-[26rem] flex-[1_1_21rem]">
+    <div class="relative max-w-104 flex-[1_1_21rem]">
       <!-- A dashed route climbing to a pin, in the space above the heading -->
       <Route class="-top-44 left-0 hidden lg:block" d="M8 152 C 40 150, 50 100, 95 105 S 160 90, 168 40" pinX={168} pinY={40} pin="sand" hole="#e9eef0" />
       <h2 class="section-title">See it full of trips before you add yours.</h2>
@@ -51,7 +52,7 @@ const trips: Trip[] = [
       {
         trips.map((t, i) => (
           <figure class="relative">
-            <div class="relative aspect-[3/4] overflow-hidden rounded-2xl shadow-[0_24px_40px_-26px_rgba(35,49,61,0.6)]">
+            <div class="relative aspect-3/4 overflow-hidden rounded-2xl shadow-[0_24px_40px_-26px_rgba(35,49,61,0.6)]">
               <Image src={t.photo} alt={t.alt} widths={[300, 600]} sizes="(min-width: 1024px) 240px, 45vw" class="h-full w-full object-cover" />
               <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(180deg,rgba(35,49,61,0)_45%,rgba(35,49,61,0.8)_100%)]" />
               <figcaption class="absolute inset-x-4 bottom-3.5 text-white">
@@ -61,7 +62,7 @@ const trips: Trip[] = [
             </div>
             <div
               aria-hidden="true"
-              class="stamp absolute -top-4 -right-1 flex sm:-right-3 size-[4.6rem] flex-col items-center justify-center rounded-full bg-linen text-center font-ui font-semibold tracking-[0.1em] md:-right-4 md:size-[5.75rem]"
+              class="stamp absolute -top-4 -right-1 flex sm:-right-3 size-[4.6rem] flex-col items-center justify-center rounded-full bg-linen text-center font-ui font-semibold tracking-widest md:-right-4 md:size-23"
               style={{ "--r": `${t.tilt}deg`, "--ink": t.ink, animationDelay: `${0.3 + i * 0.25}s` }}
             >
               <span class:list={["font-serif leading-tight tracking-[0.02em]", t.stamp[0].length > 6 ? "text-[0.66rem] md:text-[0.78rem]" : "text-[0.78rem] md:text-[0.9rem]"]}>{t.stamp[0]}</span>
@@ -72,6 +73,21 @@ const trips: Trip[] = [
       }
       <div class="flex items-center justify-center rounded-2xl border-2 border-dashed border-line p-5 text-center font-ui text-[0.95rem] text-muted">
         And more<br />in the demo
+      </div>
+    </div>
+  </div>
+
+  <!-- What it costs. Terms (src/pages/terms.astro, "Price") says the same: change both together. -->
+  <div class="mx-auto mt-20 max-w-7xl px-4 sm:px-8 md:mt-28">
+    <div class="flex flex-wrap items-center gap-x-10 gap-y-6 rounded-2xl border border-line bg-linen px-6 py-8 sm:px-10">
+      <Stamp lines={["FREE", "ALWAYS"]} ink="#a64f2c" tilt={-8} class="flex-none" />
+      <div class="max-w-184 flex-[1_1_20rem]">
+        <h2 class="mb-2 text-[1.75rem] leading-tight font-semibold text-ink">What it costs: there's always a free plan.</h2>
+        <p class="text-body">
+          While it's new, every part of the app is free, with no trial to run out and no card to enter. Later the free plan will have some
+          limits, with a paid plan for more. Before that happens you'll get an email well ahead, everything you've already added stays
+          yours, and nothing is ever charged unless you choose it.
+        </p>
       </div>
     </div>
   </div>

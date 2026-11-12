@@ -19,3 +19,7 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+# screenshot runs: the pictures (kept in the gallery artifact, never committed) and results
+screens/.shots/
+test-results/
+playwright-report/

@@ -3,12 +3,15 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import { site, missingRequired } from "./src/site.config";
 
+if (!site.forms.basinId) {
+  console.warn(`\n⚠  src/site.config.ts has no forms.basinId: the contact form can't send\n`);
+}
 if (missingRequired.length) {
   console.warn(`\n⚠  src/site.config.ts is missing: ${missingRequired.join(", ")}\n`);
 }
 
 // Pages that should never appear in the sitemap (also set `noindex` on them).
-const sitemapExclude = ["/404", "/privacy"]; // /privacy: draft until reviewed
+const sitemapExclude = ["/404", "/privacy", "/terms"]; // /privacy, /terms: drafts until reviewed
 
 export default defineConfig({
   // Set `url` in src/site.config.ts

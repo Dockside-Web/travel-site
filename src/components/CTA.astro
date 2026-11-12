@@ -9,7 +9,7 @@ import TornEdge from "./home/TornEdge.astro";
 import photo from "../assets/band-reine.jpg";
 ---
 
-<section class="relative flex min-h-[30rem] items-center justify-center text-center text-white">
+<section class="relative flex min-h-120 items-center justify-center text-center text-white">
   <Image src={photo} alt="" widths={[768, 1280, 1920]} sizes="100vw" class="absolute inset-0 h-full w-full object-cover object-[center_55%]" />
   <div aria-hidden="true" class="absolute inset-0 bg-ink/45"></div>
   <TornEdge fill="#e9eef0" position="top" seed={53} />
@@ -17,7 +17,7 @@ import photo from "../assets/band-reine.jpg";
     <h2 class="mb-4 text-4xl leading-tight font-semibold [text-shadow:0_2px_20px_rgba(0,0,0,0.3)] md:text-[3.5rem]">
       Ready to start pinning your travels?
     </h2>
-    <p class="mx-auto mb-8 max-w-[34rem] text-lg leading-normal [text-shadow:0_1px_12px_rgba(0,0,0,0.35)] md:text-xl">
+    <p class="mx-auto mb-8 max-w-136 text-lg leading-normal [text-shadow:0_1px_12px_rgba(0,0,0,0.35)] md:text-xl">
       Yours alone: no feed, no followers. Download all of it, any time.
     </p>
     <Button href={signupUrl} size="lg" arrow>Get Started</Button>

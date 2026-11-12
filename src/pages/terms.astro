@@ -1,0 +1,129 @@
+---
+// DRAFT: plain-language terms written from what the app does today. Have them
+// reviewed before launch (governing law: Maryland, where the LLC is), then take
+// `noindex` off and "/terms" out of sitemapExclude in astro.config.mjs.
+// "Price" says the same as the note at the foot of the home page's Demo
+// section: change both together.
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { site } from "../site.config";
+
+const metaDescription =
+  "The terms for using Travel Map & Journal: your account, what you add stays yours, what isn't allowed, and what happens if the service changes or ends.";
+---
+
+<LegalLayout title="Terms of Use" description={metaDescription} updated="November 11, 2026" noindex>
+  <div>
+    <p>
+      {site.legalName} ("we", "us" or "our") runs {site.name} (the "App") and this website (the "Site"). These terms are the agreement
+      between you and us when you use them. By making an account or using the App, you agree to them.
+    </p>
+  </div>
+
+  <section>
+    <h2>Your account</h2>
+    <ul>
+      <li>You need to be at least 13 to have an account.</li>
+      <li>Sign up with an email address that's yours, and keep your password to yourself.</li>
+      <li>What's done from your account is yours to answer for. If you think someone else has got in, change your password and log out your other devices in Settings, and tell us.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>What you add is yours</h2>
+    <p>
+      Your trips, spots, notes, photos and expenses stay yours. You give us permission to store them and show them only as needed to run the
+      App for you: to you, to the people on a trip you've shared with them, and to anyone you give a share link. That permission ends when
+      you delete them or your account.
+    </p>
+    <p>You can download everything you've written, or delete your account, any time in Settings. The <a href="/privacy">Privacy Policy</a> says what's kept and who can see it.</p>
+    <div class="note">
+      <p>
+        <strong>Share links are public to whoever has them.</strong> Anyone you send one to can pass it on. Stop sharing to make a link stop
+        working.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>What isn't allowed</h2>
+    <ul>
+      <li>Adding anything unlawful, or photos and writing you don't have the right to use</li>
+      <li>Using share links to harass anyone, or to share someone's private information without their permission</li>
+      <li>Getting into someone else's account or trips, or trying to</li>
+      <li>Making accounts or adding things by script, or using the App in a way that gets in other people's way or overloads it</li>
+      <li>Copying or reselling the App itself</li>
+    </ul>
+    <p>We may remove content or close an account that breaks these rules. Where we can, we'll tell you first and give you a chance to download your data.</p>
+  </section>
+
+  <section>
+    <h2>Money and splits</h2>
+    <p>
+      Expenses, exchange rates, balances and "settle up" are a record to help people on a trip work out what they owe each other. Rates come
+      from the European Central Bank and may differ from what your bank charged. The App moves no money, and what people pay each other is
+      between them.
+    </p>
+  </section>
+
+  <section>
+    <h2>Maps and search</h2>
+    <p>
+      Maps and place search come from OpenStreetMap, which is made by volunteers. A place may be missing, closed or in the wrong spot, so
+      check before you rely on it.
+    </p>
+  </section>
+
+  <section>
+    <h2>Price</h2>
+    <p>
+      {site.name} will always have a free plan. While it's new, every part of it is free. Later the free plan will have some limits, with a
+      paid plan for more. Before any limit or paid plan starts, you'll be told by email well ahead. What you've already added stays yours,
+      nothing is charged unless you choose a paid plan, and you'll always be able to download your data.
+    </p>
+  </section>
+
+  <section>
+    <h2>Changes and ending</h2>
+    <div class="items">
+      <div>
+        <h4>The App</h4>
+        <p>The App may change, and features may be added or removed.</p>
+      </div>
+      <div>
+        <h4>These terms</h4>
+        <p>
+          We may update these terms. We'll post the new version here and change the date at the top, and if a change matters, we'll tell you
+          by email before it takes effect. Using the App after that means you accept them.
+        </p>
+      </div>
+      <div>
+        <h4>If the App closes</h4>
+        <p>We'll tell you ahead of time by email, with time to download your data.</p>
+      </div>
+      <div>
+        <h4>Leaving</h4>
+        <p>You can stop using the App and delete your account at any time.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>No guarantees</h2>
+    <p>
+      The App is provided "as is". We work to keep it running and your data safe, but we can't promise it will always be available or free
+      of mistakes, so download your data now and then as a backup.
+    </p>
+    <p>
+      As far as the law allows, {site.legalName} isn't liable for indirect or consequential losses, or for lost data, that come from using
+      the App.
+    </p>
+  </section>
+
+  <section>
+    <h2>Governing law</h2>
+    <p>
+      These terms are governed by the laws of the State of Maryland, United States, and any dispute about them will be settled in the state or
+      federal courts located in Maryland, unless the law where you live gives you the right to bring it somewhere else.
+    </p>
+  </section>
+</LegalLayout>

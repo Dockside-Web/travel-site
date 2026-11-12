@@ -1,0 +1,15 @@
+/* Applied while a screenshot is taken. A full-page picture never scrolls, so
+   what fades in as it scrolls into view (data-reveal, the demo cards' stamps)
+   is shown as it ends up. The departure board's letters flip by themselves,
+   so it's masked in pages.spec.ts. */
+.js [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.js .stamps .stamp {
+  opacity: 0.95 !important;
+}
+
+astro-dev-toolbar {
+  display: none !important;
+}

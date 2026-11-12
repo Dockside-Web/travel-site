@@ -12,6 +12,7 @@ built from the Dockside `astro-website-template`, deployed to Cloudflare Workers
 | `npm run check` | Type-check |
 | `npm run build` | Build to `dist/` |
 | `npm run deploy` | Build + deploy to Cloudflare |
+| `npm run test:screens` | A fresh picture of every page on a phone and a wide screen, in `screens/.shots` (builds the site and serves it on port 4390). Git-ignored: screenshots are never committed; they're kept in the gallery artifact |
 
 ## Where things are
 
@@ -41,10 +42,15 @@ built from the Dockside `astro-website-template`, deployed to Cloudflare Workers
   the blog" on a feature page by linking to it in its text, e.g. `[your travel map](/travel-map)`.
   Its link preview is its hero photo cropped to 1200×630. Pages: `src/pages/blog/`; helpers:
   `src/lib/blog.ts`; RSS at `/rss.xml` once `url` is set (`src/pages/[feed].xml.ts`).
+- `src/components/PageHero.astro`: the hero of every page but the home page (feature pages, the
+  blog and its posts, Contact, Privacy, Terms, not found): the lake photo behind the nav, the
+  title in white, a torn edge into the page. Each page passes its own slice of the photo.
 - `src/components/CTA.astro`: the closing band, with the privacy promise and Get Started.
 - `src/styles/global.css`: the colours ("Misty harbour": slate blue, fog, linen, sand, ink) and
   fonts (Source Serif 4, Instrument Sans, self-hosted through `astro.config.mjs`).
 - `src/assets/`: photos and app screenshots, optimized at build time.
+- `screens/`: takes the screenshots (`pages.spec.ts` lists the pages; blog posts are found by
+  themselves). A new page goes in its list. The pictures are never committed.
 
 The site is slate blue on purpose, not the app's green and cream: the screenshots should stand out
 from the page around them.
@@ -58,9 +64,20 @@ from the page around them.
       Lisbon tram on the share page). Swap in your own when you have them
 - [ ] `SharedLisbon` is drawn, with a stock photo and a made-up note from "Alex"; replace it with a
       real screenshot of a share page once the demo has cover photos
-- [ ] `legalName`, an `ogImage` (1200×630), favicons from the logo
-- [ ] Privacy (`src/pages/privacy.astro`) is a draft from what the app does today: add a contact
-      email, have it reviewed, then remove `noindex` and take `/privacy` out of `sitemapExclude`
+- [ ] An `ogImage` (1200×630). The icons in `public/` (favicons, apple-touch-icon, 192 and 512)
+      are the app's gold pushpin on slate blue, chosen "for now" (2026-11-11); the app has the
+      same pin on its green
+- [ ] Contact form: `/contact` (`src/components/ContactForm.astro`) sends to Basin
+      (`forms.basinId` in `site.config.ts`, set). Send one real message to check it arrives, and
+      in Basin set the honeypot field to `_botvortex`. Optional: `forms.turnstileSiteKey`
+- [ ] **Review the legal pages.** Privacy and Terms (`src/pages/privacy.astro`, `terms.astro`, on
+      `LegalLayout`; Terms under Maryland law) are drafts written from what the app does today.
+      Have them reviewed, then remove `noindex` and take `/privacy` and `/terms` out of
+      `sitemapExclude`. Update "Last updated" on any change
+- [ ] Add the email service to Privacy's "How we share information" when the app sends email
+- [ ] What it costs: the note at the foot of `Demo` (always a free plan; everything free while
+      it's new, limits on the free plan later) and Terms' Price section say the same thing:
+      change both together when the plans are set
 - [ ] Re-take the screenshots in `src/assets/` when the app's look changes
 - [ ] The template's launch list still applies: custom domain on the Worker, `workers_dev: false`,
       Search Console, analytics

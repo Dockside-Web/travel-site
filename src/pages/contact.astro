@@ -1,0 +1,29 @@
+---
+// Contact: the hero every inner page has (PageHero), then the form on a white card
+// (src/components/ContactForm.astro, sent to Basin), then the closing band.
+import Layout from "../layouts/Layout.astro";
+import ContactForm from "../components/ContactForm.astro";
+import CTA from "../components/CTA.astro";
+import PageHero from "../components/PageHero.astro";
+
+const metaDescription =
+  "Get in touch about Travel Map & Journal: a question, something that isn't working, an idea for the app, or anything about your account and your data.";
+---
+
+<Layout title="Contact" description={metaDescription} nav="overlay">
+  <PageHero
+    title="Get in touch."
+    lede="A question, something that isn't working, or an idea for the app: we'd like to hear it."
+    slice="52%"
+    seed={37}
+    stamp={["HELLO", "WRITE US"]}
+  />
+
+  <div class="px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+    <div class="mx-auto max-w-2xl rounded-2xl bg-white px-6 py-8 shadow-[0_24px_50px_-30px_rgba(35,49,61,0.45)] sm:px-10 sm:py-10">
+      <ContactForm />
+    </div>
+  </div>
+
+  <CTA />
+</Layout>

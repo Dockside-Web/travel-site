@@ -45,11 +45,11 @@ const stamps: { lines: [string, string]; ink: string; tilt: number }[] = [
     src={myWorld}
     alt="My World in the app: a map with every country visited shaded green, numbered pins on the cities, and 10 countries, 5 US states, 18 cities and 4 continents counted at the top."
     sizes="(min-width: 1280px) 640px, 100vw"
-    class="w-full max-w-[40rem]"
+    class="w-full max-w-160"
   />
 
   <div class="flex flex-wrap items-center gap-x-20 gap-y-14">
-    <div class="max-w-[36rem] flex-[1_1_24rem]">
+    <div class="max-w-xl flex-[1_1_24rem]">
       <h2 class="section-title">What counts as “been there”?</h2>
       <div class="space-y-4 text-body">
         <p>
@@ -66,8 +66,8 @@ const stamps: { lines: [string, string]; ink: string; tilt: number }[] = [
         </p>
       </div>
     </div>
-    <div aria-hidden="true" class="grid flex-[1_1_20rem] grid-cols-2 justify-items-center gap-8 py-4 sm:max-w-[22rem]">
-      {stamps.map((s) => <Stamp lines={s.lines} ink={s.ink} tilt={s.tilt} class="md:size-[7rem]" />)}
+    <div aria-hidden="true" class="grid flex-[1_1_20rem] grid-cols-2 justify-items-center gap-8 py-4 sm:max-w-88">
+      {stamps.map((s) => <Stamp lines={s.lines} ink={s.ink} tilt={s.tilt} class="md:size-28" />)}
     </div>
   </div>
 </FeatureLayout>

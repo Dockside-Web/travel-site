@@ -10,6 +10,7 @@
 import Layout from "./Layout.astro";
 import Button from "../components/Button.astro";
 import CTA from "../components/CTA.astro";
+import PageHero from "../components/PageHero.astro";
 import Pin from "../components/Pin.astro";
 import PostCard from "../components/blog/PostCard.astro";
 import { demoUrl, signupUrl } from "../lib/links";
@@ -40,29 +41,23 @@ const schema = {
 };
 ---
 
-<Layout title={title} description={description} schema={schema}>
-  <section class="mx-auto flex max-w-7xl flex-wrap items-center gap-x-16 gap-y-14 px-4 pt-16 pb-20 sm:px-8 md:pt-24 md:pb-28">
-    <div class="max-w-[36rem] flex-[1_1_26rem]">
-      <h1 class="mb-6 text-[2.75rem] leading-[1.02] font-semibold tracking-tight text-ink md:text-[4rem]">{heading}</h1>
-      <p class="mb-9 text-xl leading-normal text-body md:text-[1.3rem]">{intro}</p>
-      <div class="grid gap-3 min-[420px]:flex min-[420px]:flex-wrap">
-        <Button href={signupUrl} size="lg" arrow>Get Started</Button>
-        <Button href={demoUrl} rel="nofollow" size="lg" variant="slate">Try the demo</Button>
-      </div>
+<Layout title={title} description={description} schema={schema} nav="overlay">
+  <PageHero title={heading} lede={intro} fill="#e9eef0" slice="45%" seed={29}>
+    <div class="mt-9 grid gap-3 min-[420px]:flex min-[420px]:flex-wrap">
+      <Button href={signupUrl} size="lg" arrow>Get Started</Button>
+      <Button href={demoUrl} rel="nofollow" size="lg" variant="outline">Try the demo</Button>
     </div>
-    <div class="flex min-w-0 flex-[1_1_32rem] justify-center" data-reveal>
-      <slot name="visual" />
-    </div>
-  </section>
+    <slot name="visual" slot="aside" />
+  </PageHero>
 
   <section class="bg-fog py-20 md:py-28">
     <div class="mx-auto max-w-7xl px-4 sm:px-8">
-      <h2 class="section-title mb-12 max-w-[36rem] md:mb-16">{pointsHeading}</h2>
+      <h2 class="section-title mb-12 max-w-xl md:mb-16">{pointsHeading}</h2>
       <ul class="grid gap-x-16 gap-y-10 md:grid-cols-2">
         {
           points.map((p, i) => (
-            <li class="flex max-w-[34rem] gap-4">
-              <Pin color={i === points.length - 1 ? "sand" : "slate"} hole="#e9eef0" class="mt-1 h-[34px] w-auto flex-none" />
+            <li class="flex max-w-136 gap-4">
+              <Pin color={i === points.length - 1 ? "sand" : "slate"} hole="#e9eef0" class="mt-1 h-8.5 w-auto flex-none" />
               <div>
                 <h3 class="mb-1.5 text-[1.4rem] leading-tight font-semibold text-ink">{p.title}</h3>
                 <p class="text-[1.05rem] text-body">{p.text}</p>
@@ -92,7 +87,7 @@ const schema = {
   </section>
 
   <section class="bg-fog pt-20 pb-28 md:pt-24 md:pb-36">
-    <div class="mx-auto flex max-w-[46rem] flex-wrap items-center gap-x-10 gap-y-6 px-4 sm:px-8">
+    <div class="mx-auto flex max-w-184 flex-wrap items-center gap-x-10 gap-y-6 px-4 sm:px-8">
       <div class="min-w-0 flex-[1_1_22rem]">
         <h2 class="mb-2 text-3xl leading-tight font-semibold text-ink md:text-4xl">See it full of trips first.</h2>
         <p class="text-body">The demo account has years of trips, spots and split costs. Click around as much as you like: it's read-only.</p>

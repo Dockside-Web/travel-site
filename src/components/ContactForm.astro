@@ -1,0 +1,107 @@
+---
+// The contact form, sent to Basin (usebasin.com). Set `forms.basinId` in
+// src/site.config.ts: the ID at the end of the Basin form's URL, or the whole
+// URL. The form always shows; until the ID is set, sending fails and says so.
+//
+// It's sent in the background, so the visitor stays on the page and sees
+// "Message sent" here; if scripts fail, the form still posts to Basin the plain way.
+// `forms.turnstileSiteKey` adds Cloudflare Turnstile's check (turn it on in
+// Basin too). The hidden field is Basin's honeypot: its name must match the
+// one set in the Basin form's spam settings.
+import { site } from "../site.config";
+
+const { basinId, turnstileSiteKey } = site.forms;
+const basinURL = basinId.startsWith("http") ? basinId : `https://usebasin.com/f/${basinId}`;
+
+const input =
+  "w-full rounded-xl border border-line bg-white px-4 py-3 font-ui text-base text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-slate focus:ring-2 focus:ring-slate/25";
+const label = "mb-1.5 block font-ui text-[0.95rem] font-semibold text-ink";
+---
+
+<form id="contact-form" action={basinURL} method="POST" class="space-y-5">
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label for="name" class={label}>
+            Your name <span class="text-app-eat" aria-hidden="true">*</span>
+          </label>
+          <input type="text" id="name" name="name" autocomplete="name" required class={input} />
+        </div>
+        <div>
+          <label for="email" class={label}>
+            Email <span class="text-app-eat" aria-hidden="true">*</span>
+          </label>
+          <input type="email" id="email" name="email" autocomplete="email" required class={input} />
+        </div>
+      </div>
+
+      <div>
+        <label for="topic" class={label}>What's it about?</label>
+        <select id="topic" name="topic" class={input}>
+          <option>A question</option>
+          <option>Something isn't working</option>
+          <option>An idea for the app</option>
+          <option>My account or my data</option>
+          <option>Something else</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="message" class={label}>
+          Message <span class="text-app-eat" aria-hidden="true">*</span>
+        </label>
+        <textarea id="message" name="message" rows="6" required class:list={[input, "resize-y"]} />
+      </div>
+
+      {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" />}
+
+      <div class="absolute left-[-9999px] h-0 overflow-hidden" aria-hidden="true">
+        <label for="_botvortex">Leave this field empty</label>
+        <input type="text" id="_botvortex" name="_botvortex" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <p id="contact-error" role="alert" hidden class="rounded-xl border border-app-eat/40 bg-app-eat/10 px-4 py-3 font-ui text-[0.95rem] text-ink" />
+
+      <button
+        type="submit"
+        id="contact-send"
+        class="inline-flex min-h-12 cursor-pointer items-center justify-center rounded-full bg-sand px-8 font-ui text-[1.05rem] font-semibold text-ink transition-all hover:-translate-y-0.5 hover:bg-sand-light active:scale-95 disabled:cursor-wait disabled:opacity-60 disabled:hover:translate-y-0"
+      >
+        Send message
+      </button>
+</form>
+
+<div id="contact-done" hidden tabindex="-1" class="outline-none">
+  <h2 class="mb-2 text-[1.75rem] leading-tight font-semibold text-ink">Message sent.</h2>
+  <p class="text-lg text-body">Thanks! We'll get back to you soon.</p>
+</div>
+
+<!-- Loaded here (not in Layout) so pages without the form don't pay for it -->
+{turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />}
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#contact-form");
+  const done = document.querySelector<HTMLElement>("#contact-done");
+  const error = document.querySelector<HTMLElement>("#contact-error");
+  const send = document.querySelector<HTMLButtonElement>("#contact-send");
+
+  if (form && done && error && send) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      error.hidden = true;
+      send.disabled = true;
+      send.textContent = "Sending…";
+      try {
+        const res = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.hidden = true;
+        done.hidden = false;
+        done.focus();
+      } catch {
+        error.textContent = "That didn't send. Try again in a moment.";
+        error.hidden = false;
+        send.disabled = false;
+        send.textContent = "Send message";
+      }
+    });
+  }
+</script>

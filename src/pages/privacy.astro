@@ -1,50 +1,217 @@
 ---
 // DRAFT: written from what the app does today (see travel-app/README.md and
-// docs/plan.md). Have it reviewed before launch, then remove `noindex` and
-// take "/privacy" out of sitemapExclude in astro.config.mjs.
-import Layout from "../layouts/Layout.astro";
+// docs/plan.md). Have it reviewed before launch, then take `noindex` off and
+// "/privacy" out of sitemapExclude in astro.config.mjs. When the app sends
+// email, add the email service under "How we share information".
+import LegalLayout from "../layouts/LegalLayout.astro";
 import { site } from "../site.config";
 
 const metaDescription =
   "What Travel Map & Journal keeps about you, who can see it, the services it uses for maps, search and exchange rates, and how to download or delete it.";
 ---
 
-<Layout title="Privacy" description={metaDescription} noindex>
-  <article class="mx-auto max-w-3xl px-4 pt-20 pb-28 sm:px-8 [&_h2]:mt-12 [&_h2]:mb-3 [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:text-ink [&_li]:mb-2 [&_p]:mb-4 [&_p]:text-body [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:text-body">
-    <h1 class="mb-4 text-5xl font-semibold text-ink">Privacy</h1>
-    <p class="text-xl">{site.name} is a private travel journal. Here's what it keeps, who can see it, and how to take it with you.</p>
-
-    <h2>What it keeps</h2>
-    <ul>
-      <li>Your account: your name, email, and a hashed password (or your Google login, if you sign in with Google).</li>
-      <li>What you add: trips, spots, notes, ratings, homes, your wishlist, and the expenses and splits on your trips.</li>
-      <li>One cover photo per trip or home, if you add one. Location data is removed from photos when they're uploaded.</li>
-    </ul>
-
-    <h2>Who can see it</h2>
-    <p>Only you, unless you share. There's no public profile, feed or followers.</p>
-    <ul>
-      <li><strong>Share links</strong> show a read-only page of one trip or destination to anyone who has the link. A spots-only link never shows costs or who went. Stopping sharing deletes the link.</li>
-      <li><strong>People on a trip</strong> you've shared with them see that trip, and can add to it if you allow it.</li>
-      <li>Your wishlist and your homes' dates are never on share links.</li>
-    </ul>
-
-    <h2>Services it uses</h2>
-    <ul>
-      <li><strong>Cloudflare</strong> hosts the app, its database and photos.</li>
-      <li><strong>Photon</strong> (OpenStreetMap) answers place searches. What you type in a search is sent to it; your account isn't.</li>
-      <li><strong>OpenFreeMap</strong> serves the map tiles.</li>
-      <li><strong>Frankfurter</strong> (European Central Bank rates) supplies exchange rates. No personal data is sent.</li>
-      <li><strong>Google</strong>, only if you choose to sign in with Google.</li>
-    </ul>
-
-    <h2>Your data is yours</h2>
+<LegalLayout title="Privacy Policy" description={metaDescription} updated="November 11, 2026" noindex>
+  <div>
     <p>
-      “Download your data” in Settings gives you everything you've written in one file, any time. Deleting your account deletes your
-      trips, spots and photos. Spots you added to someone else's trip pass to that trip's owner.
+      {site.legalName} ("we", "us" or "our") runs {site.name}, a private travel journal (the "App"), and this website (the "Site"). This
+      policy explains what we keep, who can see it, and what you can do about it.
     </p>
+    <p>The short version: what you add is yours and private unless you share it, nothing is sold, and there are no ads.</p>
+  </div>
 
-    <h2>Questions</h2>
-    <p>[Contact email to add before launch.]</p>
-  </article>
-</Layout>
+  <section>
+    <h2>Information we collect</h2>
+
+    <div>
+      <h3>1) Your account</h3>
+      <ul>
+        <li>Your name and email address</li>
+        <li>Your password, stored only as a one-way hash we can't read</li>
+        <li>If you sign in with Google: your name, email and profile photo from Google</li>
+        <li>Your settings: your home currency, your home (a city, state or country) and light or dark</li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>2) What you add</h3>
+      <ul>
+        <li>Trips, spots, notes, ratings, homes and past homes, and your wishlist</li>
+        <li>Expenses, who went on a trip (names you type, which needn't be real names) and how costs were split</li>
+        <li>One cover photo per trip or home, if you add one</li>
+      </ul>
+      <div class="note">
+        <p>
+          <strong>Photos:</strong> location data and other details your camera saves inside a photo are removed when it's uploaded. Photos
+          are stored privately and shown only to the people who can see that trip.
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h3>3) Logins and security</h3>
+      <ul>
+        <li>Each device you're logged in on, with its IP address and browser, so you can log the others out in Settings</li>
+        <li>Counts of attempts (such as wrong passwords and searches) to stop abuse, kept for a short time</li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>4) Usage counts</h3>
+      <p>
+        That an account opened the App on a given day, and daily totals (such as how many searches were made). These are counts only: we
+        never look at what anyone wrote or where they went to make them.
+      </p>
+    </div>
+
+    <div>
+      <h3>5) Messages you send us</h3>
+      <p>
+        When you use the contact form on the Site, we collect your name, your email address and what you write, so we can answer you.
+      </p>
+      <div class="note">
+        <p>
+          <strong>Note:</strong> the contact form is processed by Basin, which receives and stores your message on our behalf. Basin's own
+          practices are in its privacy policy at
+          <a href="https://usebasin.com/privacy/" target="_blank" rel="noopener noreferrer">usebasin.com/privacy</a>.
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h3>6) Analytics</h3>
+      <p>
+        We use Cloudflare Web Analytics on the Site and the App to see which pages are visited. It uses no cookies, doesn't follow you
+        between websites, and gives us totals such as page views, referring pages, country, and browser and device type.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>How we use information</h2>
+    <p>We use it to:</p>
+    <ul>
+      <li>Run the App for you: show your trips, maps, totals and share links</li>
+      <li>Keep accounts secure and stop spam and abuse</li>
+      <li>Answer you when you write to us</li>
+      <li>Understand, in totals, how the App is used, so we can improve it</li>
+    </ul>
+    <p>We don't use what you add for advertising, and we don't sell or rent it to anyone.</p>
+  </section>
+
+  <section>
+    <h2>Who can see what you add</h2>
+    <p>Only you, unless you share. There's no public profile, feed or followers.</p>
+    <div class="items">
+      <div>
+        <h4>Share links</h4>
+        <p>
+          A share link shows a read-only page of one trip or place to anyone who has the link. A spots-only link never shows costs or who
+          went. Stopping sharing deletes the link. Your wishlist, and where and when you've lived, are never on a share link.
+        </p>
+      </div>
+      <div>
+        <h4>People on a trip</h4>
+        <p>People who join a trip you've shared with them see that trip, including its expenses, and can add to it if you allow it.</p>
+      </div>
+      <div>
+        <h4>The demo</h4>
+        <p>The demo account on the Site is filled with made-up trips. Nothing anyone types in the demo is saved.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cookies</h2>
+    <p>The App sets only the cookies it needs to work:</p>
+    <ul>
+      <li>One that keeps you logged in</li>
+      <li>Small ones that remember light or dark, how you last logged in, and that you've opened the App today</li>
+    </ul>
+    <p>None of them are for advertising or follow you to other websites. The Site itself sets no cookies.</p>
+  </section>
+
+  <section>
+    <h2>How we share information</h2>
+    <p>We don't sell your personal information. We share it only in these cases:</p>
+    <div class="items">
+      <div>
+        <h4>Service providers</h4>
+        <p>Services that help run the App, and only what each needs:</p>
+        <ul>
+          <li><strong>Cloudflare</strong> hosts the Site, the App, its database and photos, checks that sign-ups come from a person (Turnstile), and provides the analytics above.</li>
+          <li><strong>Photon</strong> (OpenStreetMap) answers place searches. What you type in a search is sent; your account isn't.</li>
+          <li><strong>OpenFreeMap</strong> serves the map tiles your browser shows.</li>
+          <li><strong>Frankfurter</strong> supplies European Central Bank exchange rates. No personal information is sent.</li>
+          <li><strong>Google</strong>, only if you choose to sign in with Google.</li>
+          <li><strong>Basin</strong> receives what you send through the Site's contact form.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal and safety</h4>
+        <p>If the law requires it, or to protect the rights, safety or property of our users, the public or us.</p>
+      </div>
+      <div>
+        <h4>Business transfers</h4>
+        <p>
+          If the App is ever sold or merged, your information may pass to the new owner, who must keep to this policy or tell you before
+          changing it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How long we keep it</h2>
+    <p>
+      What you add is kept until you delete it or your account. Deleting your account deletes your trips, spots, expenses, photos, wishlist
+      and share links; spots you added to someone else's trip pass to that trip's owner. Deleted information may remain in the database's
+      backups for up to 30 days before it's gone for good. Usage counts are kept as totals.
+    </p>
+  </section>
+
+  <section>
+    <h2>Security</h2>
+    <p>
+      Everything is sent over an encrypted connection, passwords are stored as hashes, photos are private, and every page checks that you're
+      allowed to see it. No method of storage or transmission is completely secure, so we can't promise absolute security.
+    </p>
+  </section>
+
+  <section>
+    <h2>Your choices</h2>
+    <ul>
+      <li><strong>Download your data:</strong> in Settings, everything you've written in one file, any time</li>
+      <li><strong>Change or delete</strong> anything you've added, whenever you like</li>
+      <li><strong>Stop sharing:</strong> deleting a share link stops it working at once</li>
+      <li><strong>Delete your account</strong> in Settings</li>
+    </ul>
+    <p>
+      Depending on where you live, you may have other rights, such as asking what we hold about you or asking us to correct it. Write to us
+      and we'll help.
+    </p>
+  </section>
+
+  <section>
+    <h2>Children's privacy</h2>
+    <p>
+      The App isn't meant for children under 13, and we don't knowingly collect personal information from them. If you think a child has
+      made an account, write to us and we'll delete it.
+    </p>
+  </section>
+
+  <section>
+    <h2>Links to other sites</h2>
+    <p>
+      Spots have links to Google Maps, and the App links to other websites. Once you follow one, that site's own privacy policy applies, not
+      this one.
+    </p>
+  </section>
+
+  <section>
+    <h2>Changes to this policy</h2>
+    <p>
+      We may update this policy. We'll post the new version here and change the date at the top, and if a change matters for what we do
+      with your information, we'll tell you by email before it takes effect.
+    </p>
+  </section>
+</LegalLayout>

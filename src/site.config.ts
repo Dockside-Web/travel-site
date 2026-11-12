@@ -28,14 +28,14 @@ export const site = {
   // ---------------------------------------------------------------------------
 
   // Full legal name for the copyright/schema. e.g. "Sweet Caroline Seaport, LLC"
-  legalName: "",
+  legalName: "Dockside Web Solutions, LLC",
   // Mobile browser bar color + manifest. Usually the main brand color. e.g. "#1e40af"
   themeColor: "#17324d",
   // Social share image in /public, 1200x630. e.g. "/og-default.jpg"
   ogImage: "",
   ogImageAlt: "",
   // Square logo in /public, used by Google. e.g. "/logo.png"
-  logo: "",
+  logo: "/icon-512.png",
 
   // ---------------------------------------------------------------------------
   // OPTIONAL - BUSINESS INFO (Google structured data / local SEO)
@@ -46,7 +46,8 @@ export const site = {
     // "LodgingBusiness", "Dentist"... List: https://schema.org/LocalBusiness
     type: "Organization",
     phone: "", // e.g. "+1-305-555-1234"
-    email: "",
+    // Shown on Privacy, Terms and in the footer as the way to reach us.
+    email: "riley@docksideweb.com",
     address: {
       street: "",
       city: "",
@@ -80,7 +81,9 @@ export const site = {
   // ---------------------------------------------------------------------------
 
   forms: {
-    basinId: "", // the ID at the end of the Basin form URL
+    // The ID at the end of the Basin form's URL (or the whole URL). Until it's
+    // set, /contact's form can't send (the build warns about it).
+    basinId: "c1929debeea6",
     turnstileSiteKey: "", // Cloudflare dashboard > Turnstile
   },
 

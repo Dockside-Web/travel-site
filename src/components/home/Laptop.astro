@@ -12,7 +12,7 @@ const { class: className, eager = false } = Astro.props;
 
 <div class={className}>
   <div class="rounded-t-xl rounded-b-sm bg-[#1c2128] p-1.5 pb-2.5 shadow-[0_40px_80px_-24px_rgba(0,0,0,0.55)] sm:rounded-t-2xl sm:p-2.5 sm:pb-3.5">
-    <div class="aspect-[16/10] overflow-hidden rounded bg-[#a4c0c6]">
+    <div class="aspect-16/10 overflow-hidden rounded bg-[#a4c0c6]">
       <Image
         src={myWorld}
         alt="My World in the app: a map with every country visited shaded green, numbered pins on the cities, and 10 countries, 5 US states, 18 cities and 4 continents counted at the top."
@@ -23,5 +23,5 @@ const { class: className, eager = false } = Astro.props;
       />
     </div>
   </div>
-  <div aria-hidden="true" class="-mx-2 h-3 rounded-b-[12px] bg-[linear-gradient(180deg,#d5d8dc,#8e939a)] sm:-mx-3 sm:h-4 lg:mx-[-6%]"></div>
+  <div aria-hidden="true" class="-mx-2 h-3 rounded-b-xl bg-[linear-gradient(180deg,#d5d8dc,#8e939a)] sm:-mx-3 sm:h-4 lg:mx-[-6%]"></div>
 </div>
