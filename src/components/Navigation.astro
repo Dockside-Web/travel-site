@@ -10,14 +10,22 @@ interface Props {
 }
 const { overlay = false } = Astro.props;
 
-// In the same order as the home page. "Try the demo" signs the visitor in to
-// the demo, so search engines are asked not to follow it.
+// The feature pages, under Features: the nav goes to pages, not to sections of
+// the home page. The footer lists them too.
+const features = [
+  { href: "/travel-map", label: "Travel map", text: "Everywhere you've been, on one map" },
+  { href: "/countries-visited", label: "Countries visited", text: "Count countries, states and cities" },
+  { href: "/split-trip-costs", label: "Split trip costs", text: "Who paid, who owes, in any currency" },
+  { href: "/share-travel-tips", label: "Share travel tips", text: "Your best spots in one link" },
+];
+// "Try the demo" signs the visitor in to the demo, so search engines are asked
+// not to follow it.
 const links: { href: string; label: string; rel?: string }[] = [
-  { href: "/#trips", label: "Trips" },
-  { href: "/#sharing", label: "Sharing" },
-  { href: "/#costs", label: "Costs" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
   { href: demoUrl, label: "Try the demo", rel: "nofollow" },
 ];
+const here = Astro.url.pathname.replace(/\.html$/, "").replace(/(.)\/$/, "$1");
 ---
 
 <header class:list={["z-30 w-full text-white", overlay ? "absolute inset-x-0 top-0" : "bg-ink"]}>
@@ -27,9 +35,50 @@ const links: { href: string; label: string; rel?: string }[] = [
       {site.name}
     </a>
 
-    <!-- Wide screens: the links in a row -->
+    <!-- Wide screens: Features (a menu), then the links in a row -->
     <nav aria-label="Main" class="hidden items-center gap-7 font-ui text-base whitespace-nowrap xl:flex">
-      {links.map((l) => <a href={l.href} rel={l.rel} class="text-white no-underline hover:text-sand">{l.label}</a>)}
+      <div class="relative" data-features>
+        <button
+          type="button"
+          class="flex cursor-pointer items-center gap-1.5 text-white hover:text-sand aria-expanded:text-sand"
+          aria-expanded="false"
+          aria-controls="features-menu"
+          data-features-button
+        >
+          Features
+          <svg class="size-4 transition-transform in-aria-expanded:rotate-180" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 6l4 4 4-4"></path>
+          </svg>
+        </button>
+        <ul
+          id="features-menu"
+          hidden
+          class="absolute top-full left-1/2 z-40 mt-4 grid w-80 -translate-x-1/2 gap-0.5 rounded-2xl bg-linen p-2 text-ink shadow-[0_24px_50px_-16px_rgba(0,0,0,0.45)]"
+          data-features-menu
+        >
+          {
+            features.map((f) => (
+              <li>
+                <a
+                  href={f.href}
+                  aria-current={here === f.href ? "page" : undefined}
+                  class="block rounded-xl px-4 py-3 whitespace-normal text-ink no-underline hover:bg-fog aria-[current=page]:bg-fog"
+                >
+                  <span class="block font-serif text-[1.1rem] font-semibold">{f.label}</span>
+                  <span class="block text-sm text-muted">{f.text}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      {
+        links.map((l) => (
+          <a href={l.href} rel={l.rel} aria-current={here === l.href ? "page" : undefined} class="text-white no-underline hover:text-sand aria-[current=page]:text-sand">
+            {l.label}
+          </a>
+        ))
+      }
       <a href={loginUrl} class="text-white no-underline hover:text-sand">Log in</a>
       <Button href={signupUrl} size="sm">Get Started</Button>
     </nav>
@@ -51,11 +100,23 @@ const links: { href: string; label: string; rel?: string }[] = [
   </div>
 
   <nav id="mobile-menu" aria-label="Main" class="mx-4 mb-4 hidden rounded-2xl bg-ink/95 p-3 font-ui shadow-2xl backdrop-blur xl:hidden" data-menu>
-    <ul class="grid">
+    <p class="px-4 pt-2 pb-1 text-xs font-semibold tracking-[0.14em] text-sand">FEATURES</p>
+    <ul class="grid border-b border-white/10 pb-2">
+      {
+        features.map((f) => (
+          <li>
+            <a href={f.href} class="block rounded-xl px-4 py-3 text-lg text-white no-underline hover:bg-white/10">
+              {f.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <ul class="grid pt-2">
       {
         [...links, { href: loginUrl, label: "Log in" }].map((l) => (
           <li>
-            <a href={l.href} rel={l.rel} class="block rounded-xl px-4 py-3.5 text-lg text-white no-underline hover:bg-white/10">
+            <a href={l.href} rel={l.rel} class="block rounded-xl px-4 py-3 text-lg text-white no-underline hover:bg-white/10">
               {l.label}
             </a>
           </li>
@@ -67,6 +128,7 @@ const links: { href: string; label: string; rel?: string }[] = [
 </header>
 
 <script>
+  // Phones: the whole menu.
   const button = document.querySelector<HTMLButtonElement>("[data-menu-button]");
   const menu = document.querySelector<HTMLElement>("[data-menu]");
   if (button && menu) {
@@ -77,7 +139,6 @@ const links: { href: string; label: string; rel?: string }[] = [
       button.querySelector("[data-menu-close]")?.classList.toggle("hidden", !open);
     };
     button.addEventListener("click", () => setOpen(button.getAttribute("aria-expanded") !== "true"));
-    // Following a link (e.g. #sharing on this page) or pressing Escape closes it.
     menu.addEventListener("click", (e) => {
       if ((e.target as HTMLElement).closest("a")) setOpen(false);
     });
@@ -85,6 +146,27 @@ const links: { href: string; label: string; rel?: string }[] = [
       if (e.key === "Escape" && button.getAttribute("aria-expanded") === "true") {
         setOpen(false);
         button.focus();
+      }
+    });
+  }
+
+  // Wide screens: Features opens on click, closes on a click elsewhere or Escape.
+  const features = document.querySelector<HTMLElement>("[data-features]");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-features-button]");
+  const list = document.querySelector<HTMLElement>("[data-features-menu]");
+  if (features && toggle && list) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      list.hidden = !open;
+    };
+    toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+    document.addEventListener("click", (e) => {
+      if (!features.contains(e.target as Node)) setOpen(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !list.hidden) {
+        setOpen(false);
+        toggle.focus();
       }
     });
   }

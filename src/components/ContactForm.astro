@@ -1,73 +1,94 @@
 ---
-// The contact form, sent to Basin (usebasin.com). Set `forms.basinId` in
-// src/site.config.ts: the ID at the end of the Basin form's URL, or the whole
-// URL. The form always shows; until the ID is set, sending fails and says so.
+// The contact form, sent to Basin (usebasin.com): `forms.basinId` in
+// src/site.config.ts, the ID at the end of the Basin form's URL (or the whole URL).
+//
+// Cloudflare Turnstile is required: the form only sends
+// once its check has passed, and Basin checks the token again (Turnstile turned
+// on in the Basin form, with the secret key). `forms.turnstileSiteKey` is the
+// widget's site key. Without one, the dev server uses Cloudflare's test key
+// (always passes), and a real build shows the form with sending switched off,
+// so it never goes live without the check. The build warns until it's set.
 //
 // It's sent in the background, so the visitor stays on the page and sees
-// "Message sent" here; if scripts fail, the form still posts to Basin the plain way.
-// `forms.turnstileSiteKey` adds Cloudflare Turnstile's check (turn it on in
-// Basin too). The hidden field is Basin's honeypot: its name must match the
-// one set in the Basin form's spam settings.
+// "Message sent" here. The hidden `_botvortex` field is Basin's honeypot: its
+// name must match the one set in the Basin form's spam settings.
 import { site } from "../site.config";
 
-const { basinId, turnstileSiteKey } = site.forms;
+const { basinId } = site.forms;
 const basinURL = basinId.startsWith("http") ? basinId : `https://usebasin.com/f/${basinId}`;
+// Cloudflare's always-pass test key, for the dev server only.
+const siteKey = site.forms.turnstileSiteKey || (import.meta.env.DEV ? "1x00000000000000000000AA" : "");
 
 const input =
   "w-full rounded-xl border border-line bg-white px-4 py-3 font-ui text-base text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-slate focus:ring-2 focus:ring-slate/25";
 const label = "mb-1.5 block font-ui text-[0.95rem] font-semibold text-ink";
 ---
 
-<form id="contact-form" action={basinURL} method="POST" class="space-y-5">
-      <div class="grid gap-5 sm:grid-cols-2">
-        <div>
-          <label for="name" class={label}>
-            Your name <span class="text-app-eat" aria-hidden="true">*</span>
-          </label>
-          <input type="text" id="name" name="name" autocomplete="name" required class={input} />
-        </div>
-        <div>
-          <label for="email" class={label}>
-            Email <span class="text-app-eat" aria-hidden="true">*</span>
-          </label>
-          <input type="email" id="email" name="email" autocomplete="email" required class={input} />
-        </div>
-      </div>
+<form id="contact-form" action={basinURL} method="POST" class="space-y-5" data-ready={siteKey ? "" : undefined}>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="name" class={label}>
+        Your name <span class="text-app-eat" aria-hidden="true">*</span>
+      </label>
+      <input type="text" id="name" name="name" autocomplete="name" required class={input} />
+    </div>
+    <div>
+      <label for="email" class={label}>
+        Email <span class="text-app-eat" aria-hidden="true">*</span>
+      </label>
+      <input type="email" id="email" name="email" autocomplete="email" required class={input} />
+    </div>
+  </div>
 
-      <div>
-        <label for="topic" class={label}>What's it about?</label>
-        <select id="topic" name="topic" class={input}>
-          <option>A question</option>
-          <option>Something isn't working</option>
-          <option>An idea for the app</option>
-          <option>My account or my data</option>
-          <option>Something else</option>
-        </select>
-      </div>
+  <div>
+    <label for="topic" class={label}>What's it about?</label>
+    <select id="topic" name="topic" class={input}>
+      <option>A question</option>
+      <option>Something isn't working</option>
+      <option>An idea for the app</option>
+      <option>My account or my data</option>
+      <option>Something else</option>
+    </select>
+  </div>
 
-      <div>
-        <label for="message" class={label}>
-          Message <span class="text-app-eat" aria-hidden="true">*</span>
-        </label>
-        <textarea id="message" name="message" rows="6" required class:list={[input, "resize-y"]} />
-      </div>
+  <div>
+    <label for="message" class={label}>
+      Message <span class="text-app-eat" aria-hidden="true">*</span>
+    </label>
+    <textarea id="message" name="message" rows="6" required class:list={[input, "resize-y"]} />
+  </div>
 
-      {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" />}
+  {
+    siteKey ? (
+      <div
+        class="cf-turnstile min-h-16.25"
+        data-sitekey={siteKey}
+        data-theme="light"
+        data-size="flexible"
+        data-callback="contactVerified"
+        data-expired-callback="contactExpired"
+        data-error-callback="contactExpired"
+      />
+    ) : (
+      <p class="rounded-xl border border-line bg-fog px-4 py-3 font-ui text-[0.95rem] text-body">The contact form isn't switched on yet.</p>
+    )
+  }
 
-      <div class="absolute left-[-9999px] h-0 overflow-hidden" aria-hidden="true">
-        <label for="_botvortex">Leave this field empty</label>
-        <input type="text" id="_botvortex" name="_botvortex" tabindex="-1" autocomplete="off" />
-      </div>
+  <div class="absolute left-[-9999px] h-0 overflow-hidden" aria-hidden="true">
+    <label for="_botvortex">Leave this field empty</label>
+    <input type="text" id="_botvortex" name="_botvortex" tabindex="-1" autocomplete="off" />
+  </div>
 
-      <p id="contact-error" role="alert" hidden class="rounded-xl border border-app-eat/40 bg-app-eat/10 px-4 py-3 font-ui text-[0.95rem] text-ink" />
+  <p id="contact-error" role="alert" hidden class="rounded-xl border border-app-eat/40 bg-app-eat/10 px-4 py-3 font-ui text-[0.95rem] text-ink"></p>
 
-      <button
-        type="submit"
-        id="contact-send"
-        class="inline-flex min-h-12 cursor-pointer items-center justify-center rounded-full bg-sand px-8 font-ui text-[1.05rem] font-semibold text-ink transition-all hover:-translate-y-0.5 hover:bg-sand-light active:scale-95 disabled:cursor-wait disabled:opacity-60 disabled:hover:translate-y-0"
-      >
-        Send message
-      </button>
+  <button
+    type="submit"
+    id="contact-send"
+    disabled
+    class="inline-flex min-h-12 cursor-pointer items-center justify-center rounded-full bg-sand px-8 font-ui text-[1.05rem] font-semibold text-ink transition-all hover:-translate-y-0.5 hover:bg-sand-light active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:active:scale-100"
+  >
+    Send message
+  </button>
 </form>
 
 <div id="contact-done" hidden tabindex="-1" class="outline-none">
@@ -76,17 +97,46 @@ const label = "mb-1.5 block font-ui text-[0.95rem] font-semibold text-ink";
 </div>
 
 <!-- Loaded here (not in Layout) so pages without the form don't pay for it -->
-{turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />}
+{siteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />}
 
 <script>
+  declare global {
+    interface Window {
+      contactVerified?: () => void;
+      contactExpired?: () => void;
+      turnstile?: { reset: (widget?: string | HTMLElement) => void };
+    }
+  }
+
   const form = document.querySelector<HTMLFormElement>("#contact-form");
   const done = document.querySelector<HTMLElement>("#contact-done");
   const error = document.querySelector<HTMLElement>("#contact-error");
   const send = document.querySelector<HTMLButtonElement>("#contact-send");
 
   if (form && done && error && send) {
+    // Sending waits for Turnstile's check, and stops again if it runs out.
+    let verified = false;
+    const update = () => {
+      send.disabled = !(form.dataset.ready !== undefined && verified);
+    };
+    window.contactVerified = () => {
+      verified = true;
+      update();
+    };
+    window.contactExpired = () => {
+      verified = false;
+      update();
+    };
+    // A token is good for one send: a new check before trying again.
+    const freshCheck = () => {
+      verified = false;
+      update();
+      window.turnstile?.reset(form.querySelector<HTMLElement>(".cf-turnstile") ?? undefined);
+    };
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
+      if (!verified) return;
       error.hidden = true;
       send.disabled = true;
       send.textContent = "Sending…";
@@ -99,8 +149,8 @@ const label = "mb-1.5 block font-ui text-[0.95rem] font-semibold text-ink";
       } catch {
         error.textContent = "That didn't send. Try again in a moment.";
         error.hidden = false;
-        send.disabled = false;
         send.textContent = "Send message";
+        freshCheck();
       }
     });
   }

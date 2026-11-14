@@ -36,14 +36,14 @@ const stamps: { lines: [string, string]; ink: string; tilt: number }[] = [
   title="Countries visited tracker"
   description="Keep count of the countries you've visited: tick them by continent, add US states, and watch them fill in on your own travel map. Trips tick them for you."
   heading="Count the countries you've been to."
-  intro="Tick off countries and US states as you go, or let your trips do it for you. They fill in on your map, and the count stays right because nothing is ticked twice."
+  intro="Tick off countries and US states as you go, or let your trips do it for you."
   pointsHeading="A country list that keeps itself up to date."
   points={points}
 >
   <AppWindow
     slot="visual"
     src={myWorld}
-    alt="My World in the app: a map with every country visited shaded green, numbered pins on the cities, and 10 countries, 5 US states, 18 cities and 4 continents counted at the top."
+    alt="My World in the app: a map of the world with every country visited shaded green, pins on the places, and 22 countries, 24 US states, 47 cities and 5 continents counted at the top."
     sizes="(min-width: 1280px) 640px, 100vw"
     class="w-full max-w-160"
   />
@@ -55,10 +55,6 @@ const stamps: { lines: [string, string]; ink: string; tilt: number }[] = [
         <p>
           Everyone has their own rule. Some people count an airport, some need a night's sleep, some need a meal outside the airport. The app
           doesn't decide for you: tick what you count.
-        </p>
-        <p>
-          What it does do is keep trips and ticks apart. A country that came from a trip is locked to it, so deleting a tick can't quietly
-          undo a trip. And trips that haven't happened yet, or places on your wishlist, never count.
         </p>
         <p>
           Every country you tick shows up on <a href="/travel-map" class="text-slate-deep underline decoration-1 underline-offset-4 hover:text-ink">your travel map</a>, along with the spots from your

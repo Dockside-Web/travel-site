@@ -34,7 +34,7 @@ const points = [
   <AppWindow
     slot="visual"
     src={expenses}
-    alt="The Expenses page for Lisbon & Porto: $2,963.74 spent, $1,487.42 as your share, $849.38 owed to you, and each expense listed in euros with its dollar value and who paid."
+    alt="The Expenses page for Lisbon & Porto: you're owed $849.38, the trip cost $2,963.74 with $1,487.42 as your share, and the expenses grouped by kind with what each one left you."
     sizes="(min-width: 1280px) 640px, 100vw"
     class="w-full max-w-160"
   />
@@ -43,19 +43,11 @@ const points = [
     <h2 class="section-title">Why the day's rate matters</h2>
     <div class="space-y-4 text-body">
       <p>
-        Converting everything at today's rate is close enough on a two-week trip. Look back at a trip from last year, though, and the numbers
-        drift: what you paid for that hotel isn't what it says you paid.
+        Each expense is converted at the rate from the day you paid, so totals stay accurate years later. Everyone sees them in their own
+        currency.
       </p>
       <p>
-        Here each expense keeps the amount and currency you actually paid, and converts at the rate on its own day. Your share, what you're
-        owed and the trip's total all come out in your home currency, and your friend in London sees theirs in pounds. For currencies the
-        central bank doesn't publish, type the rate you got.
-      </p>
-      <p>
-        Expenses sit inside the trip, next to its spots. Group them by kind, by day, by who paid or by where it was, and your Stats page adds
-        up what a year of travel cost you. Only the people on the trip see any of it: <a href="/share-travel-tips" class="text-slate-deep underline decoration-1 underline-offset-4 hover:text-ink"
-          >a link of your tips</a
-        > never shows what anything cost.
+        Group expenses by kind, day, who paid or where. Only the people on the trip can see what it cost.
       </p>
     </div>
   </div>

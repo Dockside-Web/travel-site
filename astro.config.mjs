@@ -3,19 +3,22 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import { site, missingRequired } from "./src/site.config";
 
-if (!site.forms.basinId) {
-  console.warn(`\n⚠  src/site.config.ts has no forms.basinId: the contact form can't send\n`);
+if (!site.forms.basinId || !site.forms.turnstileSiteKey) {
+  console.warn(`\n⚠  src/site.config.ts needs forms.basinId and forms.turnstileSiteKey: until both are set, the contact form can't send\n`);
 }
 if (missingRequired.length) {
   console.warn(`\n⚠  src/site.config.ts is missing: ${missingRequired.join(", ")}\n`);
 }
 
 // Pages that should never appear in the sitemap (also set `noindex` on them).
-const sitemapExclude = ["/404", "/privacy", "/terms"]; // /privacy, /terms: drafts until reviewed
+const sitemapExclude = ["/404"];
 
 export default defineConfig({
   // Set `url` in src/site.config.ts
   site: site.url || undefined,
+  // The app's dev server (../travel-app) needs 4321 for logging in to work, so
+  // this one runs beside it on 4322.
+  server: { port: 4322 },
   output: "static",
 
   // Clean URLs: /about (not /about/ or /about.html). Cloudflare redirects the

@@ -20,7 +20,7 @@ export const site = {
   description:
     "A private travel journal built around a map: remember where you've been, keep every place you loved, and share the best of any trip in one link.",
   // Production URL with https:// and no trailing slash. e.g. "https://example.com"
-  // TODO: set once the domain is chosen (the app moves to app.<domain> then).
+  // Empty until there's a domain (README, Before launch).
   url: "",
 
   // ---------------------------------------------------------------------------
@@ -31,9 +31,9 @@ export const site = {
   legalName: "Dockside Web Solutions, LLC",
   // Mobile browser bar color + manifest. Usually the main brand color. e.g. "#1e40af"
   themeColor: "#17324d",
-  // Social share image in /public, 1200x630. e.g. "/og-default.jpg"
-  ogImage: "",
-  ogImageAlt: "",
+  // Social share image in /public, 1200x630.
+  ogImage: "/og-default.jpg",
+  ogImageAlt: "Travel Map & Journal: Your travels, beautifully mapped. The app's world map beside a mountain lake.",
   // Square logo in /public, used by Google. e.g. "/logo.png"
   logo: "/icon-512.png",
 
@@ -77,14 +77,16 @@ export const site = {
   },
 
   // ---------------------------------------------------------------------------
-  // OPTIONAL - CONTACT FORM
+  // CONTACT FORM (/contact)
   // ---------------------------------------------------------------------------
 
   forms: {
-    // The ID at the end of the Basin form's URL (or the whole URL). Until it's
-    // set, /contact's form can't send (the build warns about it).
+    // The ID at the end of the Basin form's URL (or the whole URL).
     basinId: "c1929debeea6",
-    turnstileSiteKey: "", // Cloudflare dashboard > Turnstile
+    // Required: the form only sends once Turnstile's check passes. Cloudflare
+    // dashboard > Turnstile > the widget's site key (its secret key goes in the
+    // Basin form's Turnstile setting). Until it's set, the live form can't send.
+    turnstileSiteKey: "0x4AAAAAAF9nxBhkkrJ67RHr",
   },
 
   // ---------------------------------------------------------------------------

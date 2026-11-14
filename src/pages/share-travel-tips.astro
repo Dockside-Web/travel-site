@@ -30,10 +30,10 @@ const points = [
   pointsHeading="Three ways to share, each showing only what it should."
   points={points}
 >
-  <!-- The share page is drawn tall; here it's cut off at the bottom, as if scrolled -->
+  <!-- The share page, scrolled down to its title, map and spots, and cut off at the bottom -->
   <div slot="visual" class="relative w-full max-w-118">
     <div class="relative h-152 overflow-hidden rounded-[14px] shadow-[0_40px_80px_-30px_rgba(35,49,61,0.5)] md:h-200">
-      <SharedLisbon />
+      <SharedLisbon scroll={250} />
       <div aria-hidden="true" class="absolute inset-x-0 bottom-0 h-16 bg-linear-to-b from-transparent to-linen"></div>
     </div>
   </div>
@@ -42,12 +42,7 @@ const points = [
     <h2 class="section-title">A link you can take back</h2>
     <div class="space-y-4 text-body">
       <p>
-        Each share link is a long random address, so it can't be guessed. Nobody sees your trips unless you share them, and there's
-        no public profile, feed or followers to find them through.
-      </p>
-      <p>
-        Stop sharing and the link is deleted: anyone who opens it after that gets nothing. Your wishlist and where you live are never on a
-        share link.
+        Only the people you send a link to can see it, and you can stop sharing at any time. Your wishlist and home are never included.
       </p>
       <p>
         The spots come from <a href="/travel-map" class="text-slate-deep underline decoration-1 underline-offset-4 hover:text-ink">your map</a>, so a destination page fills itself in as you travel.

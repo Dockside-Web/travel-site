@@ -1,7 +1,7 @@
 ---
-// DRAFT: plain-language terms written from what the app does today. Have them
-// reviewed before launch (governing law: Maryland, where the LLC is), then take
-// `noindex` off and "/terms" out of sitemapExclude in astro.config.mjs.
+// Plain-language terms written from what the app does today (governing law:
+// Maryland, where the LLC is). Live and in Google, but still to be reviewed
+// before launch. Change "Last updated" whenever this changes.
 // "Price" says the same as the note at the foot of the home page's Demo
 // section: change both together.
 import LegalLayout from "../layouts/LegalLayout.astro";
@@ -11,7 +11,7 @@ const metaDescription =
   "The terms for using Travel Map & Journal: your account, what you add stays yours, what isn't allowed, and what happens if the service changes or ends.";
 ---
 
-<LegalLayout title="Terms of Use" description={metaDescription} updated="November 11, 2026" noindex>
+<LegalLayout title="Terms of Use" description={metaDescription} updated="November 11, 2026">
   <div>
     <p>
       {site.legalName} ("we", "us" or "our") runs {site.name} (the "App") and this website (the "Site"). These terms are the agreement

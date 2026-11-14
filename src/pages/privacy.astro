@@ -1,8 +1,8 @@
 ---
-// DRAFT: written from what the app does today (see travel-app/README.md and
-// docs/plan.md). Have it reviewed before launch, then take `noindex` off and
-// "/privacy" out of sitemapExclude in astro.config.mjs. When the app sends
-// email, add the email service under "How we share information".
+// Written from what the app does today (see travel-app/README.md and
+// docs/plan.md). Live and in Google, but still to be reviewed before launch.
+// When the app sends email, add the email service under "How we share
+// information". Change "Last updated" whenever this changes.
 import LegalLayout from "../layouts/LegalLayout.astro";
 import { site } from "../site.config";
 
@@ -10,7 +10,7 @@ const metaDescription =
   "What Travel Map & Journal keeps about you, who can see it, the services it uses for maps, search and exchange rates, and how to download or delete it.";
 ---
 
-<LegalLayout title="Privacy Policy" description={metaDescription} updated="November 11, 2026" noindex>
+<LegalLayout title="Privacy Policy" description={metaDescription} updated="November 11, 2026">
   <div>
     <p>
       {site.legalName} ("we", "us" or "our") runs {site.name}, a private travel journal (the "App"), and this website (the "Site"). This
@@ -138,7 +138,7 @@ const metaDescription =
         <h4>Service providers</h4>
         <p>Services that help run the App, and only what each needs:</p>
         <ul>
-          <li><strong>Cloudflare</strong> hosts the Site, the App, its database and photos, checks that sign-ups come from a person (Turnstile), and provides the analytics above.</li>
+          <li><strong>Cloudflare</strong> hosts the Site, the App, its database and photos, checks that sign-ups and contact form messages come from a person (Turnstile), and provides the analytics above.</li>
           <li><strong>Photon</strong> (OpenStreetMap) answers place searches. What you type in a search is sent; your account isn't.</li>
           <li><strong>OpenFreeMap</strong> serves the map tiles your browser shows.</li>
           <li><strong>Frankfurter</strong> supplies European Central Bank exchange rates. No personal information is sent.</li>
